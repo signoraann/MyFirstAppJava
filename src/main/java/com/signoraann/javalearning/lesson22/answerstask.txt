@@ -1,0 +1,27 @@
+Task 1
+
+The URL - it's an resource address.
+The method is some kind of action. GET - when you want for example to see the website (you want to get sth); POST - when you give some data (for example you entered the password).
+The Headers — additional details (they describe the request or the response. For example, Content-Type tells the format of the data
+The Body - in request - data that is transmitted to the server; in response - this is what the server transmits to us (for example picture or HTML-code)
+
+Task 2
+
+GET - is used to read data without changing it;
+POST - is used to add new data to the server;
+PUT - is used to update data which is already exist on the server;
+DELETE - is used to delete data from the server
+
+"Logging in" - POST (because we send data, such as login and password, to the server)
+"Viewing a profile" - GET (we just "read" the page and don't change any data)
+"Deleting a comment" - DELETE (we remove data from the server)
+
+Task 3
+
+if a server returns a:
+
+200 - the request worked and the server returned the data (for example the page opened);
+201 - a new record (for example you created a new account) successfully created;
+400 - the server cannot understand the request because of bad syntax (for example you didn't fill in a required field and the server cannot process the request);
+404 - the server cannot find the requested file or page (you try find something that the server doesn't have)
+500 - the server has some problem (some uncaught exception in code)
