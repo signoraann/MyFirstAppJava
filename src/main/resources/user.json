@@ -1,0 +1,11 @@
+{
+  "name": "Ann",
+  "age": 19,
+  "hobbies": ["dancing", "reading", "photography"],
+  "address": {
+    "country": "Belarus",
+    "city": "Brest",
+    "street": "Lenina",
+    "house": 20
+  }
+}
