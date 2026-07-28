@@ -1,23 +1,22 @@
 package com.signoraann.javalearning.lesson23;
 import com.google.gson.Gson;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+
 public class Main {
     public static void main(String[] args) {
-        String json = "{\n" +
-                "  \"name\": \"Ann\",\n" +
-                "  \"age\": 19,\n" +
-                "  \"hobbies\": [\"dancing\", \"reading\", \"photography\"],\n" +
-                "  \"address\": {\n" +
-                "    \"country\": \"Belarus\",\n" +
-                "    \"city\": \"Brest\",\n" +
-                "    \"street\": \"Lenina\",\n" +
-                "    \"house\": 20\n" +
-                "  }\n" +
-                "}";
         Gson gson = new Gson();
-        User user = gson.fromJson(json, User.class);
-        System.out.println("Object " + user);
-        String backToJson = gson.toJson(user);
-        System.out.println("Back to json " + backToJson);
+        try (Reader reader = new InputStreamReader(Objects.requireNonNull(Main.class.getClassLoader().getResourceAsStream("user.json")), StandardCharsets.UTF_8)) {
+            User user = gson.fromJson(reader, User.class);
+            System.out.println("Object from file " + user);
+            String backToJson = gson.toJson(user);
+            System.out.println("Back to json " + backToJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
