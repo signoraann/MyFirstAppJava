@@ -15,7 +15,7 @@ public class Main {
             String backToJson = gson.toJson(user);
             System.out.println("Back to json " + backToJson);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error processing the user.json file", e);
         }
 
     }
