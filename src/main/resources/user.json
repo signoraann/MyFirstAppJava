@@ -1,7 +1,7 @@
 [
   {
     "name": "Ann",
-    "age": 19,
+    "Age": 19,
     "hobbies": [
       "dancing",
       "reading",
@@ -11,7 +11,8 @@
       "country": "Belarus",
       "city": "Brest",
       "street": "Lenina",
-      "house": 20
+      "house": "20",
+      "postcode": 223331
     }
   },
   {
@@ -25,7 +26,7 @@
       "country": "England",
       "city": "London",
       "street": "S.Patric",
-      "house": 3
+      "house": "3"
     }
   },
   {
@@ -40,7 +41,7 @@
       "country": "Latvia",
       "city": "Riga",
       "street": "Abracadabra",
-      "house": 4
+      "house": "12/2 С"
     }
   }
 ]
