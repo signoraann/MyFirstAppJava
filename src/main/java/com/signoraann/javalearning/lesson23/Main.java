@@ -1,5 +1,8 @@
 package com.signoraann.javalearning.lesson23;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -7,19 +10,22 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main {
+    private static final Logger logger = LoggerFactory.getLogger(com.signoraann.javalearning.lesson23.Main.class);
+
     public static void main(String[] args) {
         UserConverter converter = new UserConverter();
         try (Reader reader = new InputStreamReader(Objects.requireNonNull(Main.class.getClassLoader().getResourceAsStream("user.json")), StandardCharsets.UTF_8)) {
             List<User> users = converter.fromJson(reader);
             if (users != null && !users.isEmpty()) {
-                System.out.println("Object from file:");
-                users.forEach(System.out::println);
+                logger.info("Object from file:");
+                users.forEach(user -> logger.info("User: {}", user));
                 String backToJson = converter.toJson(users);
-                System.out.println("\nBack to json:\n" + backToJson);
+                logger.info("Back to Json: {}", backToJson);
             } else {
-                System.out.println("File user.json is empty!");
+                logger.warn("File user.json is empty!");
             }
         } catch (Exception e) {
+            logger.error("Error processing the user.json file", e);
             throw new RuntimeException("Error processing the user.json file", e);
         }
     }
