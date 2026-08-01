@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserConverterTest {
+class UserConverterTest {
     private final UserConverter converter = new UserConverter();
 
     @Test
