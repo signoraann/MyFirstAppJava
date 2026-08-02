@@ -15,7 +15,8 @@ public class Main {
     public static void main(String[] args) {
         UserConverter converter = new UserConverter();
         try (Reader reader = new InputStreamReader(
-                Objects.requireNonNull(Main.class.getClassLoader().getResourceAsStream("user.json")),
+                Objects.requireNonNull(
+                        Main.class.getClassLoader().getResourceAsStream("user.json"), "user.json not found!"),
                 StandardCharsets.UTF_8)) {
             List<User> users = converter.fromJson(reader);
             if (users != null && !users.isEmpty()) {
