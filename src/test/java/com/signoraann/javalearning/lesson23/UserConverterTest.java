@@ -12,7 +12,7 @@ class UserConverterTest {
     private final UserConverter converter = new UserConverter();
 
     @Test
-    void fromJsonHappyPath() {
+    void toJsonRoundTrip() {
         StringReader reader = new StringReader("""
             [
               {
@@ -91,11 +91,8 @@ class UserConverterTest {
         User user = new User("Ann", 19, List.of("reading", "dancing"), address);
         List<User> users = List.of(user);
         String json = converter.toJson(users);
-        assertNotNull(json);
-        assertTrue(json.contains("\"name\":\"Ann\""));
-        assertTrue(json.contains("\"age\":19"));
-        assertTrue(json.contains("\"hobbies\":[\"reading\",\"dancing\"]"));
-        assertTrue(json.contains("\"postcode\":123456"));
+        List<User> backToObject = converter.fromJson(new StringReader(json));
+        assertEquals(users, backToObject);
     }
 
     @Test

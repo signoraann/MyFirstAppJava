@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(com.signoraann.javalearning.lesson23.Main.class);
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws IOException {
         UserConverter converter = new UserConverter();
