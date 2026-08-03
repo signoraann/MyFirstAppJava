@@ -37,14 +37,14 @@ class UserConverterTest {
     }
 
     @Test
-    void fromJsonEmpty() {
+    void fromJsonEmptyArrayReturnsEmptyList() {
         StringReader reader = new StringReader("[]");
         List<User> users = converter.fromJson(reader);
         assertTrue(users.isEmpty());
     }
 
     @Test
-    void fromJsonEmptyFile() {
+    void fromJsonEmptyInputReturnsNull() {
         StringReader reader = new StringReader("");
         List<User> users = converter.fromJson(reader);
         assertNull(users);
@@ -58,7 +58,7 @@ class UserConverterTest {
     }
 
     @Test
-    void fromJsonWithoutPostcodeReturnsNull() {
+    void fromJsonSetsNullPostcodeWhenItMissingInJson() {
         StringReader reader = new StringReader("""
             [
               {
@@ -79,8 +79,15 @@ class UserConverterTest {
     }
 
     @Test
-    void fromJsonCaseMismatchReturnNullField() {
+    void fromJsonCaseMismatchReturnsNullField() {
         String json = "[{\"name\": \"Ann\", \"Age\": 19}]";
+        List<User> users = converter.fromJson(new StringReader(json));
+        assertNull(users.getFirst().age());
+    }
+
+    @Test
+    void fromJsonAgeIsNullReturnsNull() {
+        String json = "[{\"name\": \"Ann\", \"age\": null}]";
         List<User> users = converter.fromJson(new StringReader(json));
         assertNull(users.getFirst().age());
     }
