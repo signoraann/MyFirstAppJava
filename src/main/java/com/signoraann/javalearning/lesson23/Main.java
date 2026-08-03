@@ -3,6 +3,7 @@ package com.signoraann.javalearning.lesson23;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +13,7 @@ import java.util.Objects;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(com.signoraann.javalearning.lesson23.Main.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         UserConverter converter = new UserConverter();
         try (Reader reader = new InputStreamReader(
                 Objects.requireNonNull(
@@ -27,9 +28,6 @@ public class Main {
             } else {
                 logger.warn("File user.json is empty!");
             }
-        } catch (Exception e) {
-            logger.error("Error processing the user.json file", e);
-            throw new RuntimeException("Error processing the user.json file", e);
         }
     }
 }
