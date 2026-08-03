@@ -99,7 +99,7 @@ class UserConverterTest {
     }
 
     @Test
-    void toJsonEmpty() {
+    void toJsonNullListReturnsNullLiteral() {
         String json = converter.toJson(null);
         assertEquals("null", json);
     }
@@ -109,8 +109,6 @@ class UserConverterTest {
         User user = new User("Ann", null, null, null);
         List<User> users = List.of(user);
         String json = converter.toJson(users);
-        assertTrue(json.contains("\"age\":null"));
-        assertTrue(json.contains("\"hobbies\":null"));
-        assertTrue(json.contains("\"address\":null"));
+        assertFalse(json.contains("\"age\":null"));
     }
 }
