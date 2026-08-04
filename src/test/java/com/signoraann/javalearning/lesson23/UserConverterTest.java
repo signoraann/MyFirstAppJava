@@ -10,25 +10,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserConverterTest {
     private final UserConverter converter = new UserConverter();
+    private static final String ANN_JSON = """
+        [
+          {
+            "name": "Ann",
+            "age": 19,
+            "hobbies": ["dancing", "reading", "photography"],
+            "address": {
+              "country": "Belarus",
+              "city": "Brest",
+              "street": "Lenina",
+              "house": "20"
+            }
+          }
+        ]
+        """;
 
     @Test
-    void toJsonRoundTrip() {
-        StringReader reader = new StringReader("""
-            [
-              {
-                "name": "Ann",
-                "age": 19,
-                "hobbies": ["dancing", "reading", "photography"],
-                "address": {
-                  "country": "Belarus",
-                  "city": "Brest",
-                  "street": "Lenina",
-                  "house": "20"
-                }
-              }
-            ]
-            """);
-        List<User> users = converter.fromJson(reader);
+    void fromJsonHappyPath() {
+        List<User> users = converter.fromJson(new StringReader(ANN_JSON));
         assertNotNull(users);
         assertEquals("Ann", users.getFirst().name());
         assertEquals(19, users.getFirst().age());
@@ -59,22 +59,7 @@ class UserConverterTest {
 
     @Test
     void fromJsonSetsNullPostcodeWhenItMissingInJson() {
-        StringReader reader = new StringReader("""
-            [
-              {
-                "name": "Ann",
-                "age": 19,
-                "hobbies": ["dancing", "reading", "photography"],
-                "address": {
-                  "country": "Belarus",
-                  "city": "Brest",
-                  "street": "Lenina",
-                  "house": "20"
-                }
-              }
-            ]
-            """);
-        List<User> users = converter.fromJson(reader);
+        List<User> users = converter.fromJson(new StringReader(ANN_JSON));
         assertNull(users.getFirst().address().postcode());
     }
 
@@ -93,7 +78,7 @@ class UserConverterTest {
     }
 
     @Test
-    void toJsonHappyPath() {
+    void toJsonRoundTrip() {
         Address address = new Address("Belarus", "Brest", "Lenina", "20", 123456);
         User user = new User("Ann", 19, List.of("reading", "dancing"), address);
         List<User> users = List.of(user);
