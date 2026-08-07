@@ -58,7 +58,7 @@ class UserConverterTest {
     }
 
     @Test
-    void fromJsonSetsNullPostcodeWhenItMissingInJson() {
+    void fromJsonSetsNullPostcodeWhenMissingInJson() {
         List<User> users = converter.fromJson(new StringReader(ANN_JSON));
         assertNull(users.getFirst().address().postcode());
     }
@@ -71,7 +71,7 @@ class UserConverterTest {
     }
 
     @Test
-    void fromJsonAgeIsNullReturnsNull() {
+    void fromJsonNullAgeSetsNullField() {
         String json = "[{\"name\": \"Ann\", \"age\": null}]";
         List<User> users = converter.fromJson(new StringReader(json));
         assertNull(users.getFirst().age());
@@ -94,7 +94,7 @@ class UserConverterTest {
     }
 
     @Test
-    void toJsonIncludesNullFields() {
+    void toJsonDoesNotIncludesNullFields() {
         User user = new User("Ann", null, null, null);
         List<User> users = List.of(user);
         String json = converter.toJson(users);
