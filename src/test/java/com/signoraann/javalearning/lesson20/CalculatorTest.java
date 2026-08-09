@@ -1,9 +1,11 @@
 package com.signoraann.javalearning.lesson20;
+
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CalculatorTest {
+class CalculatorTest {
     @Test
     void testCheckAdd() {
         assertEquals(4, Calculator.add(2, 2));

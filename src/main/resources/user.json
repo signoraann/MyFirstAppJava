@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Ann",
+    "age": 19,
+    "hobbies": [
+      "dancing",
+      "reading",
+      "photography"
+    ],
+    "address": {
+      "country": "Belarus",
+      "city": "Brest",
+      "street": "Lenina",
+      "house": "20",
+      "postcode": 223331
+    }
+  },
+  {
+    "name": "Jude",
+    "age": 25,
+    "hobbies": [
+      "football",
+      "travelling"
+    ],
+    "address": {
+      "country": "England",
+      "city": "London",
+      "street": "S.Patric",
+      "house": "3"
+    }
+  },
+  {
+    "name": "Elena",
+    "age": 30,
+    "hobbies": [
+      "cooking",
+      "yoga",
+      "travelling"
+    ],
+    "address": {
+      "country": "Latvia",
+      "city": "Riga",
+      "street": "Abracadabra",
+      "house": "12/2 С"
+    }
+  }
+]
