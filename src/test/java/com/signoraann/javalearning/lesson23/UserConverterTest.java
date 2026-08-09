@@ -94,7 +94,7 @@ class UserConverterTest {
     }
 
     @Test
-    void toJsonDoesNotIncludesNullFields() {
+    void toJsonOmitsIncludesNullFields() {
         User user = new User("Ann", null, null, null);
         List<User> users = List.of(user);
         String json = converter.toJson(users);
