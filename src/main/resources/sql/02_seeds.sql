@@ -17,6 +17,9 @@ VALUES ('', 'empty@hmail.com', 21); --this row is broken by purpose
 INSERT INTO users (email, age)
 VALUES ('null@hmail.com', 34); --this row is broken by purpose*/
 INSERT INTO posts(user_id, post_title, content)
-VALUES (1, 'My first post!', 'Hello World!');
+VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'My first post!', 'Hello World!');
 INSERT INTO posts(user_id, post_title, content)
-VALUES (1, 'My hobbies', 'I love dancing and swimming :)');
+VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'My hobbies', 'I love dancing and swimming :)');
+INSERT INTO posts(user_id, post_title)
+VALUES ((SELECT id FROM users WHERE email = 'hatters@mail.com'),
+        'Why I think databases are actually pretty interesting');
