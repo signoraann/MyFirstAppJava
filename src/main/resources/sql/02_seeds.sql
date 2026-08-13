@@ -23,3 +23,10 @@ VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'My hobbies
 INSERT INTO posts(user_id, post_title)
 VALUES ((SELECT id FROM users WHERE email = 'hatters@mail.com'),
         'Why I think databases are actually pretty interesting');
+INSERT INTO users (id, username, email)
+VALUES (3000000000, 'someuser', 'some@mail.com');
+INSERT INTO posts (user_id, post_title)
+VALUES (3000000000, 'Post title');
+DELETE
+FROM users
+WHERE id = 1;
