@@ -1,0 +1,2 @@
+-- Questions you ask the database. Only reads, never changes anything.
+-- Say what each one is for on the line above it.

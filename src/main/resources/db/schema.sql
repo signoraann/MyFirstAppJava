@@ -1,0 +1,2 @@
+-- Tables and their rules. No data here.
+-- Run this first. Run it again anytime to start over.

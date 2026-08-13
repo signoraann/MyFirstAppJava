@@ -1,0 +1,2 @@
+-- Bad rows, on purpose. Everything here should fail.
+-- Run one line at a time and read the error.

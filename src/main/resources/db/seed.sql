@@ -1,0 +1,2 @@
+-- A few fake rows to play with. Run after schema.sql.
+-- Everything here should work.
