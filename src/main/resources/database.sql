@@ -6,8 +6,7 @@ CREATE TABLE users
     email      VARCHAR(100) NOT NULL UNIQUE CHECK ( email <> '' ),
     age        INTEGER CHECK ( age > 0 ),
     status     VARCHAR(20) DEFAULT 'active',
-    created_at TIMESTAMP   DEFAULT CURRENT_TIMESTAMP
-
+    created_at TIMESTAMPTZ DEFAULT now()
 );
 INSERT INTO users (username, email, age)
 VALUES ('Ann', 'signoraann@gmail.com', 19);
