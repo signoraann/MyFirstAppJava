@@ -27,6 +27,6 @@ INSERT INTO users (id, username, email)
 VALUES (3000000000, 'someuser', 'some@mail.com');
 INSERT INTO posts (user_id, post_title)
 VALUES (3000000000, 'Post title');
-DELETE
+/*DELETE
 FROM users
-WHERE id = 1;
+WHERE id IN (SELECT id FROM users WHERE email = 'signoraann@gmail.com');*/
