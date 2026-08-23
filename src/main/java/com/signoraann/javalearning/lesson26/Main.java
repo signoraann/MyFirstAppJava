@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -15,9 +16,10 @@ public class Main {
         try (Connection connection = DatabaseManager.getConnection()) {
             logger.info("Connected to database!");
             UserRepository userRepository = new UserRepository(connection);
-            List<String> usernames = userRepository.findAllUsers();
+            List<String> usernames = userRepository.findAllUsernames();
             if (usernames.isEmpty()) {
                 logger.warn("No users found in the database!");
+                return;
             } else {
                 logger.info("All users from database:");
                 for (String username : usernames) {
@@ -27,8 +29,8 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             logger.info("Enter username to search");
             String userInputName = scanner.nextLine();
-            String foundUser = userRepository.findUserByUsername(userInputName);
-            if (foundUser == null) {
+            Optional<User> foundUser = userRepository.findUserByUsername(userInputName);
+            if (foundUser.isEmpty()) {
                 logger.warn("User {} not found", userInputName);
             } else {
                 logger.info("Found user: {}", foundUser);
