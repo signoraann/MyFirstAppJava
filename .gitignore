@@ -4,4 +4,4 @@
 .idea/
 .vertx/
 target/
-.env/
+.env
