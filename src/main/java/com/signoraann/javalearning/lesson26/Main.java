@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -14,23 +13,25 @@ public class Main {
 
     public static void main(String[] args) {
         try (Connection connection = DatabaseManager.getConnection()) {
-            logger.info("Connected to database!");
             UserRepository userRepository = new UserRepository(connection);
-            if (!getAllUsernamesFromDatabase(userRepository)) {
+            logger.info("Connected to database!");
+            List<String> usernames = userRepository.findAllUsernames();
+            boolean hasUsers = printAllUsernamesFromDatabase(usernames);
+            if (!hasUsers) {
+                logger.warn("Database is empty. Program has closed.");
                 return;
             }
+            logger.info("Enter username to search User in database: ");
             Scanner scanner = new Scanner(System.in);
-            searchUserInDatabase(userRepository, scanner);
-
+            String userInputName = scanner.nextLine();
+            User foundUser = userRepository.findUserByUsername(userInputName).orElse(null);
+            printUserSearchingByUsername(foundUser, userInputName);
         } catch (SQLException e) {
-            logger.error("Database error occurred", e);
-        } catch (IllegalStateException e) {
-            logger.error(e.getMessage());
+            logger.error("Database error: {}", e.getMessage());
         }
     }
 
-    private static boolean getAllUsernamesFromDatabase(UserRepository userRepository) throws SQLException {
-        List<String> usernames = userRepository.findAllUsernames();
+    public static boolean printAllUsernamesFromDatabase(List<String> usernames) {
         if (usernames.isEmpty()) {
             logger.warn("No users found in the database!");
             return false;
@@ -43,14 +44,14 @@ public class Main {
         }
     }
 
-    private static void searchUserInDatabase(UserRepository userRepository, Scanner scanner) throws SQLException {
-        logger.info("Enter username to search");
-        String userInputName = scanner.nextLine();
-        Optional<User> foundUser = userRepository.findUserByUsername(userInputName);
-        if (foundUser.isEmpty()) {
-            logger.warn("User {} not found", userInputName);
+    public static boolean printUserSearchingByUsername(User user, String searchName) {
+
+        if (user == null) {
+            logger.warn("User {} not found", searchName);
+            return false;
         } else {
-            logger.info("Found user: {}", foundUser);
+            logger.info("Found user: {}", user);
+            return true;
         }
     }
 }

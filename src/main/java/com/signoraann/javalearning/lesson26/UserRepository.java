@@ -28,13 +28,16 @@ public class UserRepository {
     }
 
     public Optional<User> findUserByUsername(String username) throws SQLException {
-        String searchUserByNameSql = "SELECT id, username, email FROM users WHERE username = ?";
+        String searchUserByNameSql = "SELECT id, username, email, age FROM users WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByNameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(new User(
-                            resultSet.getLong("id"), resultSet.getString("username"), resultSet.getString("email")));
+                            resultSet.getLong("id"),
+                            resultSet.getString("username"),
+                            resultSet.getString("email"),
+                            resultSet.getInt("age")));
                 }
             }
         }

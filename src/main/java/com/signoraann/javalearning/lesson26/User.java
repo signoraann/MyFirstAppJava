@@ -1,3 +1,3 @@
 package com.signoraann.javalearning.lesson26;
 
-public record User(Long id, String username, String email) {}
+public record User(Long id, String username, String email, int age) {}

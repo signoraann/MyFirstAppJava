@@ -14,7 +14,7 @@ public class DatabaseManager {
         return DriverManager.getConnection(url, user, password);
     }
 
-    private static void checkEnvironmentVariables(String url, String user, String password) {
+    static void checkEnvironmentVariables(String url, String user, String password) {
         if (url == null || user == null || password == null) {
             throw new IllegalStateException(
                     "Database environment variables(DB_URL/DB_USER/DB_PASSWORD) are missing! See .env.example for"

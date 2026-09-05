@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DatabaseManagerTest {
+class DatabaseManagerTest {
     @Test
     void testGetConnectionHappyPath() throws SQLException {
         try (Connection connection = DatabaseManager.getConnection()) {
