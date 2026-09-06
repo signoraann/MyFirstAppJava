@@ -37,7 +37,7 @@ public class UserRepository {
                             resultSet.getLong("id"),
                             resultSet.getString("username"),
                             resultSet.getString("email"),
-                            resultSet.getInt("age")));
+                            resultSet.getObject("age", Integer.class)));
                 }
             }
         }
