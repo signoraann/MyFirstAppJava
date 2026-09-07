@@ -5,31 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseManagerTest {
     @Test
-    void testCheckEnvironmentVariablesThrowExceptionWhenUrlIsNull() {
+    void testCheckEnvironmentVariablesThrowExceptionWhenVariablesAreNull() {
         assertThrows(
-                IllegalStateException.class,
-                () -> DatabaseManager.checkEnvironmentVariables(null, "DB_USER", "DB_PASSWORD"));
-    }
-
-    @Test
-    void testCheckEnvironmentVariablesThrowExceptionWhenUserIsNull() {
+                IllegalStateException.class, () -> DatabaseManager.checkEnvironmentVariables(null, "user", "password"));
         assertThrows(
-                IllegalStateException.class,
-                () -> DatabaseManager.checkEnvironmentVariables(
-                        "jdbc:postgresql://localhost:5432/test", null, "DB_PASSWORD"));
-    }
-
-    @Test
-    void testCheckEnvironmentVariablesThrowExceptionWhenPasswordIsNull() {
-        assertThrows(
-                IllegalStateException.class,
-                () -> DatabaseManager.checkEnvironmentVariables(
-                        "\"jdbc:postgresql://localhost:5432/test\"", "DB_USER", null));
+                IllegalStateException.class, () -> DatabaseManager.checkEnvironmentVariables("url", null, "password"));
+        assertThrows(IllegalStateException.class, () -> DatabaseManager.checkEnvironmentVariables("url", "user", null));
     }
 
     @Test
     void testCheckEnvironmentVariablesHappyPath() {
-        DatabaseManager.checkEnvironmentVariables(
-                "\"jdbc:postgresql://localhost:5432/test\"", "DB_USER", "DB_PASSWORD");
+        assertDoesNotThrow(() -> DatabaseManager.checkEnvironmentVariables("url", "user", "password"));
     }
 }

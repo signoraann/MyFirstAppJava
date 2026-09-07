@@ -28,25 +28,17 @@ public class Main {
             if (foundUser == null) {
                 logger.warn("User {} not found", userInputName);
             } else {
-                printUserSearchingByUsername(foundUser);
+                logger.info("Found user: {}", foundUser);
             }
         } catch (SQLException e) {
             logger.error("Database error: {}", e.getMessage());
         }
     }
 
-    public static void printAllUsernamesFromDatabase(List<String> usernames) {
-        if (usernames.isEmpty()) {
-            logger.warn("No users found in the database!");
-        } else {
-            logger.info("All users from database:");
-            for (String username : usernames) {
-                logger.info("User {}", username);
-            }
+    private static void printAllUsernamesFromDatabase(List<String> usernames) {
+        logger.info("All users from database:");
+        for (String username : usernames) {
+            logger.info("User {}", username);
         }
-    }
-
-    public static void printUserSearchingByUsername(User user) {
-        logger.info("Found user: {}", user);
     }
 }
