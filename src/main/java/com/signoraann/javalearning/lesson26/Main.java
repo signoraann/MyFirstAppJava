@@ -16,11 +16,11 @@ public class Main {
             UserRepository userRepository = new UserRepository(connection);
             logger.info("Connected to database!");
             List<String> usernames = userRepository.findAllUsernames();
-            printAllUsernamesFromDatabase(usernames);
             if (usernames.isEmpty()) {
                 logger.warn("Database is empty. Program has closed.");
                 return;
             }
+            printAllUsernamesFromDatabase(usernames);
             logger.info("Enter username to search User in database: ");
             Scanner scanner = new Scanner(System.in);
             String userInputName = scanner.nextLine();
