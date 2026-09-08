@@ -43,4 +43,23 @@ public class UserRepository {
         }
         return Optional.empty();
     }
+
+    public List<User> findUserByPartOfUsername(String username) throws SQLException {
+        String searchUserByPartOfUsernameSql =
+                "SELECT id, username, email, age from users WHERE username LIKE '%' || ? || '%'";
+        List<User> foundUsers = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByPartOfUsernameSql)) {
+            preparedStatement.setString(1, username);
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                while (result.next()) {
+                    foundUsers.add(new User(
+                            result.getLong("id"),
+                            result.getString("username"),
+                            result.getString("email"),
+                            result.getObject("age", Integer.class)));
+                }
+            }
+            return foundUsers;
+        }
+    }
 }
