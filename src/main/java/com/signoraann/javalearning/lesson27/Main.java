@@ -15,6 +15,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+        // openConnections();
         try (Connection connection = DatabaseManager.getConnection()) {
             UserRepository userRepository = new UserRepository(connection);
             logger.info("Connected to database!");
@@ -46,4 +47,15 @@ public class Main {
     private static void printUsersFoundByPartOfUsername(List<User> foundUsers) {
         logger.info("Found users: {}", foundUsers);
     }
+
+    /*private static void openConnections() {
+        try {
+            for (int i = 1; i <= 200000; i++) {
+                Connection connection = DatabaseManager.getConnection();
+                logger.info("Connection {} opened", i);
+            }
+        } catch (SQLException e) {
+            logger.error("Connection failed. {}", e.getMessage());
+        }
+    }*/
 }
