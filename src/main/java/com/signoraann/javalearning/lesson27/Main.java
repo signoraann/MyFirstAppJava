@@ -32,6 +32,12 @@ public class Main {
             } else {
                 printUsersFoundByPartOfUsername(foundUsers);
             }
+            List<User> usersBatch = List.of(
+                    new User(null, "user2", "user2@mail.com", 19),
+                    new User(null, "user3", "user3@gmail.com", 66),
+                    new User(null, "user4", "user4", 45));
+            int[] result = userRepository.addUsersInDatabase(usersBatch);
+            logger.info("Users successfully added to the database!", result);
         } catch (SQLException e) {
             logger.error("Database error: {}", e.getMessage());
         }

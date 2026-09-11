@@ -1,9 +1,6 @@
 package com.signoraann.javalearning.lesson26;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +57,23 @@ public class UserRepository {
                 }
             }
             return foundUsers;
+        }
+    }
+
+    public int[] addUsersInDatabase(List<User> users) throws SQLException {
+        String addUserSql = "INSERT INTO users(username, email, age) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(addUserSql)) {
+            for (User user : users) {
+                preparedStatement.setString(1, user.username());
+                preparedStatement.setString(2, user.email());
+                if (user.age() == null) {
+                    preparedStatement.setNull(3, Types.INTEGER);
+                } else {
+                    preparedStatement.setInt(3, user.age());
+                }
+                preparedStatement.addBatch();
+            }
+            return preparedStatement.executeBatch();
         }
     }
 }
