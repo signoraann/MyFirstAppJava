@@ -39,6 +39,7 @@ public class Main {
                     new User(null, "user4", "user4", 45));
             int[] result = userRepository.addUsersInDatabase(usersBatch);
             logger.info("Users successfully added to the database!", result);
+            scanner.close();
         } catch (SQLException e) {
             logger.error("Database error: {}", e.getMessage());
         }

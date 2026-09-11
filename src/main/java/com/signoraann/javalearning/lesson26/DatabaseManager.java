@@ -15,10 +15,17 @@ public class DatabaseManager {
     }
 
     static void checkEnvironmentVariables(String url, String user, String password) {
-        if (url == null || user == null || password == null) {
+        if (url == null) {
             throw new IllegalStateException(
-                    "Database environment variables(DB_URL/DB_USER/DB_PASSWORD) are missing! See .env.example for"
-                            + " details");
+                    "Database environment variables DB_URL is missing! See README.md for" + " details");
+        }
+        if (user == null) {
+            throw new IllegalStateException(
+                    "Database environment variables DB_USER is missing! See README.md for" + " details");
+        }
+        if (password == null) {
+            throw new IllegalStateException(
+                    "Database environment variable DB_PASSWORD is missing! See README.md for" + " details");
         }
     }
 }
