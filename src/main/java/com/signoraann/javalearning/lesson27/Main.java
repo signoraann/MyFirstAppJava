@@ -16,6 +16,7 @@ public class Main {
 
     public static void main(String[] args) {
         // openConnections();
+        UserGenerator userGenerator = new UserGenerator();
         try (Connection connection = DatabaseManager.getConnection()) {
             UserRepository userRepository = new UserRepository(connection);
             logger.info("Connected to database!");
@@ -33,10 +34,7 @@ public class Main {
             } else {
                 logger.info("Found users: {}", foundUsers);
             }
-            List<User> usersBatch = List.of(
-                    new User(null, "user2", "user2@mail.com", 19),
-                    new User(null, "user3", "user3@gmail.com", 66),
-                    new User(null, "user4", "user4", 45));
+            List<User> usersBatch = userGenerator.generateUsers(100);
             int[] result = userRepository.addUsersInDatabase(usersBatch);
             logger.info("Users successfully added to the database, {}!", result);
             scanner.close();
