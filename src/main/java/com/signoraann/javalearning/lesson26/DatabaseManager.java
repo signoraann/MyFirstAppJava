@@ -1,17 +1,29 @@
 package com.signoraann.javalearning.lesson26;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseManager {
+    private static final HikariDataSource dataSource;
 
-    public static Connection getConnection() throws SQLException {
+    static {
         String url = System.getenv("DB_URL");
         String user = System.getenv("DB_USER");
         String password = System.getenv("DB_PASSWORD");
         checkEnvironmentVariables(url, user, password);
-        return DriverManager.getConnection(url, user, password);
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(url);
+        config.setUsername(user);
+        config.setPassword(password);
+        config.setMaximumPoolSize(5);
+        dataSource = new HikariDataSource(config);
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 
     static void checkEnvironmentVariables(String url, String user, String password) {

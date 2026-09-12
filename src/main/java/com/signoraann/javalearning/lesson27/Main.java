@@ -27,31 +27,27 @@ public class Main {
             logger.info("Enter username to search User in database: ");
             Scanner scanner = new Scanner(System.in);
             String userInputName = scanner.nextLine();
-            List<User> foundUsers = userRepository.findUserByPartOfUsername(userInputName);
+            List<User> foundUsers = userRepository.findUsersByPartOfUsername(userInputName);
             if (foundUsers.isEmpty()) {
                 logger.warn("User {} not found", userInputName);
             } else {
-                printUsersFoundByPartOfUsername(foundUsers);
+                logger.info("Found users: {}", foundUsers);
             }
             List<User> usersBatch = List.of(
                     new User(null, "user2", "user2@mail.com", 19),
                     new User(null, "user3", "user3@gmail.com", 66),
                     new User(null, "user4", "user4", 45));
             int[] result = userRepository.addUsersInDatabase(usersBatch);
-            logger.info("Users successfully added to the database!", result);
+            logger.info("Users successfully added to the database, {}!", result);
             scanner.close();
         } catch (SQLException e) {
             logger.error("Database error: {}", e.getMessage());
         }
     }
 
-    private static void printUsersFoundByPartOfUsername(List<User> foundUsers) {
-        logger.info("Found users: {}", foundUsers);
-    }
-
     /*private static void openConnections() {
         try {
-            for (int i = 1; i <= 200000; i++) {
+            for (int i = 1; i <= 20; i++) {
                 Connection connection = DatabaseManager.getConnection();
                 logger.info("Connection {} opened", i);
             }

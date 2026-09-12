@@ -41,9 +41,9 @@ public class UserRepository {
         return Optional.empty();
     }
 
-    public List<User> findUserByPartOfUsername(String username) throws SQLException {
+    public List<User> findUsersByPartOfUsername(String username) throws SQLException {
         String searchUserByPartOfUsernameSql =
-                "SELECT id, username, email, age from users WHERE username LIKE '%' || ? || '%'";
+                "SELECT id, username, email, age from users WHERE username ILIKE '%' || ? || '%'";
         List<User> foundUsers = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByPartOfUsernameSql)) {
             preparedStatement.setString(1, username);
