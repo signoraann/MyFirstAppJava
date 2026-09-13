@@ -62,18 +62,29 @@ public class UserRepository {
 
     public int[] addUsersInDatabase(List<User> users) throws SQLException {
         String addUserSql = "INSERT INTO users(username, email, age) VALUES (?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(addUserSql)) {
-            for (User user : users) {
-                preparedStatement.setString(1, user.username());
-                preparedStatement.setString(2, user.email());
-                if (user.age() == null) {
-                    preparedStatement.setNull(3, Types.INTEGER);
-                } else {
-                    preparedStatement.setInt(3, user.age());
+        boolean autoCommit = connection.getAutoCommit();
+        try {
+            connection.setAutoCommit(false);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(addUserSql)) {
+                for (User user : users) {
+                    preparedStatement.setString(1, user.username());
+                    preparedStatement.setString(2, user.email());
+                    if (user.age() == null) {
+                        preparedStatement.setNull(3, Types.INTEGER);
+                    } else {
+                        preparedStatement.setInt(3, user.age());
+                    }
+                    preparedStatement.addBatch();
                 }
-                preparedStatement.addBatch();
+                int[] result = preparedStatement.executeBatch();
+                connection.commit();
+                return result;
             }
-            return preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(autoCommit);
         }
     }
 }
