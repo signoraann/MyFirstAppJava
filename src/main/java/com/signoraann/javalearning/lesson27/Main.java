@@ -17,7 +17,8 @@ public class Main {
     public static void main(String[] args) {
         // openConnections();
         UserGenerator userGenerator = new UserGenerator();
-        try (Connection connection = DatabaseManager.getConnection()) {
+        try (DatabaseManager databaseManager = new DatabaseManager();
+                Connection connection = databaseManager.getConnection()) {
             UserRepository userRepository = new UserRepository(connection);
             logger.info("Connected to database!");
             List<String> usernames = userRepository.findAllUsernames();

@@ -6,10 +6,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class DatabaseManager {
-    private static final HikariDataSource dataSource;
+public class DatabaseManager implements AutoCloseable {
+    private final HikariDataSource dataSource;
 
-    static {
+    public DatabaseManager() {
         String url = System.getenv("DB_URL");
         String user = System.getenv("DB_USER");
         String password = System.getenv("DB_PASSWORD");
@@ -19,10 +19,10 @@ public class DatabaseManager {
         config.setUsername(user);
         config.setPassword(password);
         config.setMaximumPoolSize(5);
-        dataSource = new HikariDataSource(config);
+        this.dataSource = new HikariDataSource(config);
     }
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
@@ -38,6 +38,13 @@ public class DatabaseManager {
         if (password == null) {
             throw new IllegalStateException(
                     "Database environment variable DB_PASSWORD is missing! See README.md for" + " details");
+        }
+    }
+
+    @Override
+    public void close() {
+        if (dataSource != null) {
+            dataSource.close();
         }
     }
 }
