@@ -32,7 +32,7 @@ public class Main {
             }
             List<User> usersBatch = userGenerator.generateUsers(100);
             int[] result = userRepository.addUsersInDatabase(usersBatch);
-            logger.info("Users successfully added to the database, {}!", result);
+            logger.info("Users successfully added to the database! The number of added users: {}.", result.length);
             scanner.close();
         } catch (SQLException e) {
             logger.error("Database error: {}", e.getMessage());

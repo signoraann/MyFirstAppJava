@@ -29,9 +29,9 @@ public class UserGeneratorTest {
         for (User user : users) {
             assertNotNull(user.username());
             assertNotNull(user.email());
-            assertTrue(user.age() >= 18);
             assertNotNull(user.age());
-            assertTrue(user.age() <= 25);
+            assertTrue(user.age() >= 18);
+            assertTrue(user.age() < 25);
         }
     }
 }
