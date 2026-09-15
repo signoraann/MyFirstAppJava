@@ -27,17 +27,15 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     static void checkEnvironmentVariables(String url, String user, String password) {
-        if (url == null) {
+        checkVariable("DB_URL", url);
+        checkVariable("DB_USER", user);
+        checkVariable("DB_PASSWORD", password);
+    }
+
+    private static void checkVariable(String name, String value) {
+        if (value == null) {
             throw new IllegalStateException(
-                    "Database environment variables DB_URL is missing! See README.md for" + " details");
-        }
-        if (user == null) {
-            throw new IllegalStateException(
-                    "Database environment variables DB_USER is missing! See README.md for" + " details");
-        }
-        if (password == null) {
-            throw new IllegalStateException(
-                    "Database environment variable DB_PASSWORD is missing! See README.md for" + " details");
+                    String.format("Database environment variable %s is missing! See README.md for details", name));
         }
     }
 
