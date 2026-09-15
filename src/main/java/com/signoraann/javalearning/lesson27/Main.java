@@ -45,9 +45,9 @@ public class Main {
     }
 
     /*private static void openConnections() {
-        try {
+        try (DatabaseManager databaseManager = new DatabaseManager()) {
             for (int i = 1; i <= 20; i++) {
-                Connection connection = DatabaseManager.getConnection();
+                Connection connection = databaseManager.getConnection();
                 logger.info("Connection {} opened", i);
             }
         } catch (SQLException e) {
