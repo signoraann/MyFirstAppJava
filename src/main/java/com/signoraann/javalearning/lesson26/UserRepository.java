@@ -1,9 +1,6 @@
 package com.signoraann.javalearning.lesson26;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,5 +39,52 @@ public class UserRepository {
             }
         }
         return Optional.empty();
+    }
+
+    public List<User> findUsersByPartOfUsername(String username) throws SQLException {
+        String searchUserByPartOfUsernameSql =
+                "SELECT id, username, email, age from users WHERE username ILIKE '%' || ? || '%'";
+        List<User> foundUsers = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByPartOfUsernameSql)) {
+            preparedStatement.setString(1, username);
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                while (result.next()) {
+                    foundUsers.add(new User(
+                            result.getLong("id"),
+                            result.getString("username"),
+                            result.getString("email"),
+                            result.getObject("age", Integer.class)));
+                }
+            }
+            return foundUsers;
+        }
+    }
+
+    public int[] addUsersInDatabase(List<User> users) throws SQLException {
+        String addUserSql = "INSERT INTO users(username, email, age) VALUES (?, ?, ?)";
+        boolean autoCommit = connection.getAutoCommit();
+        try {
+            connection.setAutoCommit(false);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(addUserSql)) {
+                for (User user : users) {
+                    preparedStatement.setString(1, user.username());
+                    preparedStatement.setString(2, user.email());
+                    if (user.age() == null) {
+                        preparedStatement.setNull(3, Types.INTEGER);
+                    } else {
+                        preparedStatement.setInt(3, user.age());
+                    }
+                    preparedStatement.addBatch();
+                }
+                int[] result = preparedStatement.executeBatch();
+                connection.commit();
+                return result;
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(autoCommit);
+        }
     }
 }

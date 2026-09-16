@@ -12,7 +12,8 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        try (Connection connection = DatabaseManager.getConnection()) {
+        try (DatabaseManager databaseManager = new DatabaseManager();
+                Connection connection = databaseManager.getConnection()) {
             UserRepository userRepository = new UserRepository(connection);
             logger.info("Connected to database!");
             List<String> usernames = userRepository.findAllUsernames();
