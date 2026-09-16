@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserGeneratorTest {
+class UserGeneratorTest {
     private final UserGenerator userGenerator = new UserGenerator();
 
     @Test
