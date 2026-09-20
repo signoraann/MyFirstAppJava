@@ -12,6 +12,14 @@ public class UserDaoJdbc implements UserDao {
         this.connection = connection;
     }
 
+    private User mapRow(ResultSet resultSet) throws SQLException {
+        return new User(
+                resultSet.getLong("id"),
+                resultSet.getString("username"),
+                resultSet.getString("email"),
+                resultSet.getObject("age", Integer.class));
+    }
+
     @Override
     public void save(User user) throws SQLException {
         String saveUserSql = "INSERT INTO users(username, email, age) VALUES (?,?,?)";
@@ -34,11 +42,7 @@ public class UserDaoJdbc implements UserDao {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return Optional.of(new User(
-                            resultSet.getLong("id"),
-                            resultSet.getString("username"),
-                            resultSet.getString("email"),
-                            resultSet.getObject("age", Integer.class)));
+                    return Optional.of(mapRow(resultSet));
                 }
             }
         }
