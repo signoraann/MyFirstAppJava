@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -16,8 +18,18 @@ public class Main {
                 Connection connection = databaseManager.getConnection()) {
             logger.info("Connected to database!");
             UserDao userDao = new UserDaoJdbc(connection);
-            User newUser = new User(1L, "Den", "denny@gmail.com", 23);
+            Scanner scanner = new Scanner(System.in);
+            User newUser = new User(1L, "Ben", "benBrauny@gmail.com", 33);
             userDao.save(newUser);
+            logger.info("Enter id to search User in database:");
+            Long id = scanner.nextLong();
+            Optional<User> userOptional = userDao.findUserById(id);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                logger.info("User found: {}", user);
+            } else {
+                logger.warn("User not found!");
+            }
         } catch (SQLException e) {
             logger.error("Database error: {}", e.getMessage());
         }

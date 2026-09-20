@@ -10,5 +10,7 @@ public interface UserDao {
 
     Optional<User> findUserByUsername(String username) throws SQLException;
 
+    Optional<User> findUserById(Long id) throws SQLException;
+
     void deleteByUsername(String username) throws SQLException;
 }

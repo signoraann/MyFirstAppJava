@@ -50,6 +50,20 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
+    public Optional<User> findUserById(Long id) throws SQLException {
+        String findUserById = "SELECT id,username,email,age FROM users WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findUserById)) {
+            preparedStatement.setLong(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(mapRow(resultSet));
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public void deleteByUsername(String username) throws SQLException {
         String deleteByUsernameSql = "DELETE FROM users WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByUsernameSql)) {
