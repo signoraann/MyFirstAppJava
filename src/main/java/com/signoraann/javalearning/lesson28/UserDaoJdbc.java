@@ -1,0 +1,56 @@
+package com.signoraann.javalearning.lesson28;
+
+import com.signoraann.javalearning.lesson26.User;
+
+import java.sql.*;
+import java.util.Optional;
+
+public class UserDaoJdbc implements UserDao {
+    private final Connection connection;
+
+    public UserDaoJdbc(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public void save(User user) throws SQLException {
+        String saveUserSql = "INSERT INTO users(username, email, age) VALUES (?,?,?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
+            preparedStatement.setString(1, user.username());
+            preparedStatement.setString(2, user.email());
+            if (user.age() == null) {
+                preparedStatement.setNull(3, Types.INTEGER);
+            } else {
+                preparedStatement.setInt(3, user.age());
+            }
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) throws SQLException {
+        String findUserByUsernameSql = "SELECT id,username,email,age FROM users WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByUsernameSql)) {
+            preparedStatement.setString(1, username);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(new User(
+                            resultSet.getLong("id"),
+                            resultSet.getString("username"),
+                            resultSet.getString("email"),
+                            resultSet.getObject("age", Integer.class)));
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteByUsername(String username) throws SQLException {
+        String deleteByUsernameSql = "DELETE FROM users WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByUsernameSql)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.executeUpdate();
+        }
+    }
+}
