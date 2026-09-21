@@ -1,6 +1,7 @@
 package com.signoraann.javalearning.lesson26;
 
 import java.sql.*;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class UserRepository {
     }
 
     public Optional<User> findUserByUsername(String username) throws SQLException {
-        String searchUserByNameSql = "SELECT id, username, email, age FROM users WHERE username = ?";
+        String searchUserByNameSql = "SELECT id, username, email, age, created_at FROM users WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByNameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -34,7 +35,8 @@ public class UserRepository {
                             resultSet.getLong("id"),
                             resultSet.getString("username"),
                             resultSet.getString("email"),
-                            resultSet.getObject("age", Integer.class)));
+                            resultSet.getObject("age", Integer.class),
+                            resultSet.getObject("created_at", OffsetDateTime.class)));
                 }
             }
         }
@@ -43,7 +45,7 @@ public class UserRepository {
 
     public List<User> findUsersByPartOfUsername(String username) throws SQLException {
         String searchUserByPartOfUsernameSql =
-                "SELECT id, username, email, age from users WHERE username ILIKE '%' || ? || '%'";
+                "SELECT id, username, email, age, created_at from users WHERE username ILIKE '%' || ? || '%'";
         List<User> foundUsers = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByPartOfUsernameSql)) {
             preparedStatement.setString(1, username);
@@ -53,7 +55,8 @@ public class UserRepository {
                             result.getLong("id"),
                             result.getString("username"),
                             result.getString("email"),
-                            result.getObject("age", Integer.class)));
+                            result.getObject("age", Integer.class),
+                            result.getObject("created_at", OffsetDateTime.class)));
                 }
             }
             return foundUsers;
