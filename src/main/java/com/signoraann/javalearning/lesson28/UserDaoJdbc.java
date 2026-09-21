@@ -23,7 +23,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void save(User user) throws SQLException {
+    public void saveUserInDatabase(User user) throws SQLException {
         String saveUserSql = "INSERT INTO users(username, email, age, created_at) VALUES (?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
             preparedStatement.setString(1, user.username());

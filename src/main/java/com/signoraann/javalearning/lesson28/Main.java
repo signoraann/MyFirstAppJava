@@ -21,7 +21,7 @@ public class Main {
             UserDao userDao = new UserDaoJdbc(connection);
             Scanner scanner = new Scanner(System.in);
             User newUser = new User(1L, "Logan", "logan@gmail.com", 32, OffsetDateTime.now());
-            userDao.save(newUser);
+            userDao.saveUserInDatabase(newUser);
             logger.info("Enter id to search User in database:");
             Long id = scanner.nextLong();
             Optional<User> userOptional = userDao.findUserById(id);
