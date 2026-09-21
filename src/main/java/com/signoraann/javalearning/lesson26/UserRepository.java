@@ -1,6 +1,7 @@
 package com.signoraann.javalearning.lesson26;
 
 import java.sql.*;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,8 @@ public class UserRepository {
                             resultSet.getLong("id"),
                             resultSet.getString("username"),
                             resultSet.getString("email"),
-                            resultSet.getObject("age", Integer.class)));
+                            resultSet.getObject("age", Integer.class),
+                            resultSet.getObject("created_at", OffsetDateTime.class)));
                 }
             }
         }
@@ -53,7 +55,8 @@ public class UserRepository {
                             result.getLong("id"),
                             result.getString("username"),
                             result.getString("email"),
-                            result.getObject("age", Integer.class)));
+                            result.getObject("age", Integer.class),
+                            result.getObject("created_at", OffsetDateTime.class)));
                 }
             }
             return foundUsers;

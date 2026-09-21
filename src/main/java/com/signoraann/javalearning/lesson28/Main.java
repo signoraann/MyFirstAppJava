@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -19,7 +20,7 @@ public class Main {
             logger.info("Connected to database!");
             UserDao userDao = new UserDaoJdbc(connection);
             Scanner scanner = new Scanner(System.in);
-            User newUser = new User(1L, "Ben", "benBrauny@gmail.com", 33);
+            User newUser = new User(1L, "Logan", "logan@gmail.com", 32, OffsetDateTime.now());
             userDao.save(newUser);
             logger.info("Enter id to search User in database:");
             Long id = scanner.nextLong();

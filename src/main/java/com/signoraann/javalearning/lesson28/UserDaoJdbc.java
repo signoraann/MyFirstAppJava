@@ -3,6 +3,7 @@ package com.signoraann.javalearning.lesson28;
 import com.signoraann.javalearning.lesson26.User;
 
 import java.sql.*;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
 public class UserDaoJdbc implements UserDao {
@@ -17,12 +18,13 @@ public class UserDaoJdbc implements UserDao {
                 resultSet.getLong("id"),
                 resultSet.getString("username"),
                 resultSet.getString("email"),
-                resultSet.getObject("age", Integer.class));
+                resultSet.getObject("age", Integer.class),
+                resultSet.getObject("created_at", OffsetDateTime.class));
     }
 
     @Override
     public void save(User user) throws SQLException {
-        String saveUserSql = "INSERT INTO users(username, email, age) VALUES (?,?,?)";
+        String saveUserSql = "INSERT INTO users(username, email, age, created_at) VALUES (?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
             preparedStatement.setString(1, user.username());
             preparedStatement.setString(2, user.email());
@@ -31,13 +33,14 @@ public class UserDaoJdbc implements UserDao {
             } else {
                 preparedStatement.setInt(3, user.age());
             }
+            preparedStatement.setObject(4, OffsetDateTime.now());
             preparedStatement.executeUpdate();
         }
     }
 
     @Override
     public Optional<User> findUserByUsername(String username) throws SQLException {
-        String findUserByUsernameSql = "SELECT id,username,email,age FROM users WHERE username = ?";
+        String findUserByUsernameSql = "SELECT id,username,email,age,created_at FROM users WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByUsernameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -51,7 +54,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public Optional<User> findUserById(Long id) throws SQLException {
-        String findUserById = "SELECT id,username,email,age FROM users WHERE id = ?";
+        String findUserById = "SELECT id,username,email,age, created_at FROM users WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserById)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
