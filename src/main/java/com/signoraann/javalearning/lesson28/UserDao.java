@@ -2,15 +2,14 @@ package com.signoraann.javalearning.lesson28;
 
 import com.signoraann.javalearning.lesson26.User;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 public interface UserDao {
-    void saveUserInDatabase(User user) throws SQLException;
+    void saveUser(User user);
 
-    Optional<User> findUserByUsername(String username) throws SQLException;
+    Optional<User> findUserByUsername(String username);
 
-    Optional<User> findUserById(Long id) throws SQLException;
+    Optional<User> findUserById(Long id);
 
-    void deleteByUsername(String username) throws SQLException;
+    void deleteByUsername(String username);
 }

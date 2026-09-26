@@ -5,8 +5,12 @@ import com.signoraann.javalearning.lesson26.User;
 import java.sql.*;
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserDaoJdbc implements UserDao {
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoJdbc.class);
+
     private final Connection connection;
 
     public UserDaoJdbc(Connection connection) {
@@ -23,7 +27,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void saveUserInDatabase(User user) throws SQLException {
+    public void saveUser(User user) {
         String saveUserSql = "INSERT INTO users(username, email, age, created_at) VALUES (?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
             preparedStatement.setString(1, user.username());
@@ -35,11 +39,13 @@ public class UserDaoJdbc implements UserDao {
             }
             preparedStatement.setObject(4, OffsetDateTime.now());
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) throws SQLException {
+    public Optional<User> findUserByUsername(String username) {
         String findUserByUsernameSql = "SELECT id,username,email,age,created_at FROM users WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByUsernameSql)) {
             preparedStatement.setString(1, username);
@@ -48,12 +54,14 @@ public class UserDaoJdbc implements UserDao {
                     return Optional.of(mapRow(resultSet));
                 }
             }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<User> findUserById(Long id) throws SQLException {
+    public Optional<User> findUserById(Long id) {
         String findUserById = "SELECT id,username,email,age, created_at FROM users WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserById)) {
             preparedStatement.setLong(1, id);
@@ -62,16 +70,20 @@ public class UserDaoJdbc implements UserDao {
                     return Optional.of(mapRow(resultSet));
                 }
             }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return Optional.empty();
     }
 
     @Override
-    public void deleteByUsername(String username) throws SQLException {
+    public void deleteByUsername(String username) {
         String deleteByUsernameSql = "DELETE FROM users WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByUsernameSql)) {
             preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
     }
 }
