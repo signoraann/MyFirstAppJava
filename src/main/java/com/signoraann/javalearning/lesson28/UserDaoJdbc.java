@@ -24,7 +24,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        String saveUserSql = "INSERT INTO users(username, email, age, created_at) VALUES (?,?,?,?)";
+        String saveUserSql = "INSERT INTO users(username, email, age) VALUES (?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
             preparedStatement.setString(1, user.username());
             preparedStatement.setString(2, user.email());
@@ -33,7 +33,6 @@ public class UserDaoJdbc implements UserDao {
             } else {
                 preparedStatement.setInt(3, user.age());
             }
-            preparedStatement.setObject(4, user.createdAt());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException("Failed to save user " + user.username(), e);
