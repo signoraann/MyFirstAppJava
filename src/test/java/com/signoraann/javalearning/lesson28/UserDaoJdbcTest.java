@@ -41,7 +41,7 @@ class UserDaoJdbcTest {
     }
 
     @AfterEach
-    void closResources() throws SQLException {
+    void closeResources() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
@@ -49,19 +49,43 @@ class UserDaoJdbcTest {
 
     @Test
     void saveUserInDatabaseTest() {
-        User user = new User(1L, "Dean", "diLaurentis@gmail.com", 26, OffsetDateTime.now());
+        User user = new User(1L, "Dean", "diLaurentis@gmail.com", 26);
+        OffsetDateTime beforeSave = OffsetDateTime.now();
         userDao.saveUser(user);
         Optional<User> found = userDao.findUserById(1L);
         assertTrue(found.isPresent());
         assertEquals("Dean", found.get().username());
         assertEquals("diLaurentis@gmail.com", found.get().email());
         assertEquals(26, found.get().age());
-        assertNotNull(found.get().createdAt());
+        assertFalse(found.get().createdAt().isBefore(beforeSave));
     }
 
     @Test
     void findUserByIdTestReturnsEmptyOptionalObjectWhenUserNotFoundInDatabase() {
         Optional<User> notFoundUser = userDao.findUserById(999999L);
         assertTrue(notFoundUser.isEmpty());
+    }
+
+    @Test
+    void testFindUserByUsernameHappyPath() {
+        User user = new User(1L, "Dean", "diLaurentis@gmail.com", 26);
+        userDao.saveUser(user);
+        Optional<User> found = userDao.findUserByUsername("Dean");
+        assertTrue(found.isPresent());
+        assertEquals("Dean", found.get().username());
+    }
+
+    @Test
+    void testFindUserByUsernameWhenUserIsNotFoundReturnsEmptyOptionalObject() {
+        assertTrue(userDao.findUserByUsername("Sam").isEmpty());
+    }
+
+    @Test
+    void testDeleteByUsernameHappyPath() {
+        User user = new User(1L, "Dean", "diLaurentis@gmail.com", 26);
+        userDao.saveUser(user);
+        assertTrue(userDao.findUserByUsername("Dean").isPresent());
+        userDao.deleteByUsername("Dean");
+        assertFalse(userDao.findUserByUsername("Dean").isPresent());
     }
 }
