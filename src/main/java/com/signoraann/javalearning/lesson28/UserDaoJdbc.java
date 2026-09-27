@@ -5,12 +5,8 @@ import com.signoraann.javalearning.lesson26.User;
 import java.sql.*;
 import java.time.OffsetDateTime;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UserDaoJdbc implements UserDao {
-    private static final Logger logger = LoggerFactory.getLogger(UserDaoJdbc.class);
-
     private final Connection connection;
 
     public UserDaoJdbc(Connection connection) {
@@ -37,10 +33,10 @@ public class UserDaoJdbc implements UserDao {
             } else {
                 preparedStatement.setInt(3, user.age());
             }
-            preparedStatement.setObject(4, OffsetDateTime.now());
+            preparedStatement.setObject(4, user.createdAt());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            throw new IllegalStateException("Failed to save user " + user.username(), e);
         }
     }
 
@@ -55,15 +51,15 @@ public class UserDaoJdbc implements UserDao {
                 }
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            throw new IllegalStateException("Error occurred while searching user by username " + username, e);
         }
         return Optional.empty();
     }
 
     @Override
     public Optional<User> findUserById(Long id) {
-        String findUserById = "SELECT id,username,email,age, created_at FROM users WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(findUserById)) {
+        String findUserByIdSql = "SELECT id,username,email,age, created_at FROM users WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByIdSql)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -71,7 +67,7 @@ public class UserDaoJdbc implements UserDao {
                 }
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            throw new IllegalStateException("Error occurred while searching user by id " + id, e);
         }
         return Optional.empty();
     }
@@ -83,7 +79,7 @@ public class UserDaoJdbc implements UserDao {
             preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            throw new IllegalStateException("Failed to delete user " + username, e);
         }
     }
 }
