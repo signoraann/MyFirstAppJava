@@ -1,3 +1,9 @@
 package com.signoraann.javalearning.lesson26;
 
-public record User(Long id, String username, String email, Integer age) {}
+import java.time.OffsetDateTime;
+
+public record User(Long id, String username, String email, Integer age, OffsetDateTime createdAt) {
+    public User(Long id, String username, String email, Integer age) {
+        this(id, username, email, age, null);
+    }
+}
