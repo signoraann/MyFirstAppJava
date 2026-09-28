@@ -49,7 +49,7 @@ class UserDaoJdbcTest {
 
     @Test
     void saveUserInDatabaseTest() {
-        User user = new User(1L, "Dean", "diLaurentis@gmail.com", 26);
+        User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
         OffsetDateTime beforeSave = OffsetDateTime.now();
         userDao.saveUser(user);
         Optional<User> found = userDao.findUserById(1L);
@@ -68,7 +68,7 @@ class UserDaoJdbcTest {
 
     @Test
     void testFindUserByUsernameHappyPath() {
-        User user = new User(1L, "Dean", "diLaurentis@gmail.com", 26);
+        User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
         userDao.saveUser(user);
         Optional<User> found = userDao.findUserByUsername("Dean");
         assertTrue(found.isPresent());
@@ -82,7 +82,7 @@ class UserDaoJdbcTest {
 
     @Test
     void testDeleteByUsernameHappyPath() {
-        User user = new User(1L, "Dean", "diLaurentis@gmail.com", 26);
+        User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
         userDao.saveUser(user);
         assertTrue(userDao.findUserByUsername("Dean").isPresent());
         userDao.deleteByUsername("Dean");

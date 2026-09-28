@@ -33,8 +33,8 @@ public class Main {
             userOptional.ifPresentOrElse(
                     user -> logger.info("User found: {}", user), () -> logger.warn("User not found!"));
 
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
+        } catch (SQLException | IllegalStateException e) {
+            logger.error("Operation failed: ", e);
         }
     }
 }
