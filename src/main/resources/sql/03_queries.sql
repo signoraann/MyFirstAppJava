@@ -14,3 +14,8 @@ FROM users;
 SELECT residents.city, COUNT(residents.name)
 FROM residents
 GROUP BY residents.city;
+
+SELECT residents.city, COUNT(residents.name)
+FROM residents
+GROUP BY residents.city
+HAVING AVG(age) > 21;

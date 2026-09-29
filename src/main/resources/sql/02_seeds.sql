@@ -30,35 +30,35 @@ VALUES (3000000000, 'Post title');
 /*DELETE
 FROM users
 WHERE id IN (SELECT id FROM users WHERE email = 'signoraann@gmail.com');*/
-INSERT INTO residents (name, city)
-VALUES ('Jess', 'Minsk');
-INSERT INTO residents (name, city)
-VALUES ('Karina', 'Krasnodar');
-INSERT INTO residents (name, city)
-VALUES ('Ann', 'Brest');
-INSERT INTO residents (name, city)
-VALUES ('Will', 'Minsk');
-INSERT INTO residents (name, city)
-VALUES ('Love', 'New York');
-INSERT INTO residents (name, city)
-VALUES ('Ken', 'Warsaw');
-INSERT INTO residents (name, city)
-VALUES ('Felix', 'Riga');
-INSERT INTO residents (name, city)
-VALUES ('Vera', 'Gdansk');
-INSERT INTO residents (name, city)
-VALUES ('Damiano', 'Romo');
-INSERT INTO residents (name, city)
-VALUES ('Ethan', 'Palermo');
-INSERT INTO residents (name, city)
-VALUES ('Vic', 'Oslo');
-INSERT INTO residents (name, city)
-VALUES ('Dean', 'Oslo');
-INSERT INTO residents (name, city)
-VALUES ('Stas', 'Riga');
-INSERT INTO residents (name, city)
-VALUES ('Inga', 'Krasnodar');
-INSERT INTO residents (name, city)
-VALUES ('Nastya', 'Brest');
-INSERT INTO residents (name, city)
-VALUES ('Sofa', 'Warsaw');
+INSERT INTO residents (name, city, age)
+VALUES ('Jess', 'Minsk', 16);
+INSERT INTO residents (name, city, age)
+VALUES ('Karina', 'Krasnodar', 55);
+INSERT INTO residents (name, city, age)
+VALUES ('Ann', 'Brest', 19);
+INSERT INTO residents (name, city, age)
+VALUES ('Will', 'Minsk', 22);
+INSERT INTO residents (name, city, age)
+VALUES ('Love', 'New York', 33);
+INSERT INTO residents (name, city, age)
+VALUES ('Ken', 'Warsaw', 14);
+INSERT INTO residents (name, city, age)
+VALUES ('Felix', 'Riga', 26);
+INSERT INTO residents (name, city, age)
+VALUES ('Vera', 'Gdansk', 36);
+INSERT INTO residents (name, city, age)
+VALUES ('Damiano', 'Romo', 28);
+INSERT INTO residents (name, city, age)
+VALUES ('Ethan', 'Palermo', 27);
+INSERT INTO residents (name, city, age)
+VALUES ('Vic', 'Oslo', 40);
+INSERT INTO residents (name, city, age)
+VALUES ('Dean', 'Oslo', 34);
+INSERT INTO residents (name, city, age)
+VALUES ('Stas', 'Riga', 24);
+INSERT INTO residents (name, city, age)
+VALUES ('Inga', 'Krasnodar', 5);
+INSERT INTO residents (name, city, age)
+VALUES ('Nastya', 'Brest', 17);
+INSERT INTO residents (name, city, age)
+VALUES ('Sofa', 'Warsaw', 19);
