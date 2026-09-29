@@ -30,3 +30,35 @@ VALUES (3000000000, 'Post title');
 /*DELETE
 FROM users
 WHERE id IN (SELECT id FROM users WHERE email = 'signoraann@gmail.com');*/
+INSERT INTO residents (name, city)
+VALUES ('Jess', 'Minsk');
+INSERT INTO residents (name, city)
+VALUES ('Karina', 'Krasnodar');
+INSERT INTO residents (name, city)
+VALUES ('Ann', 'Brest');
+INSERT INTO residents (name, city)
+VALUES ('Will', 'Minsk');
+INSERT INTO residents (name, city)
+VALUES ('Love', 'New York');
+INSERT INTO residents (name, city)
+VALUES ('Ken', 'Warsaw');
+INSERT INTO residents (name, city)
+VALUES ('Felix', 'Riga');
+INSERT INTO residents (name, city)
+VALUES ('Vera', 'Gdansk');
+INSERT INTO residents (name, city)
+VALUES ('Damiano', 'Romo');
+INSERT INTO residents (name, city)
+VALUES ('Ethan', 'Palermo');
+INSERT INTO residents (name, city)
+VALUES ('Vic', 'Oslo');
+INSERT INTO residents (name, city)
+VALUES ('Dean', 'Oslo');
+INSERT INTO residents (name, city)
+VALUES ('Stas', 'Riga');
+INSERT INTO residents (name, city)
+VALUES ('Inga', 'Krasnodar');
+INSERT INTO residents (name, city)
+VALUES ('Nastya', 'Brest');
+INSERT INTO residents (name, city)
+VALUES ('Sofa', 'Warsaw');

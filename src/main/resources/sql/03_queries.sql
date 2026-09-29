@@ -10,3 +10,7 @@ FROM users;
 
 SELECT SUM(age)
 FROM users;
+
+SELECT residents.city, COUNT(residents.name)
+FROM residents
+GROUP BY residents.city;
