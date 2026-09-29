@@ -19,3 +19,8 @@ SELECT residents.city, COUNT(residents.name)
 FROM residents
 GROUP BY residents.city
 HAVING AVG(age) > 21;
+
+SELECT users.username, COUNT(posts.id)
+FROM users
+         LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id;
