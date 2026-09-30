@@ -27,9 +27,9 @@ INSERT INTO users (id, username, email)
 VALUES (3000000000, 'someuser', 'some@mail.com');
 INSERT INTO posts (user_id, post_title)
 VALUES (3000000000, 'Post title');
-/*DELETE
-FROM users
-WHERE id IN (SELECT id FROM users WHERE email = 'signoraann@gmail.com');*/
+-- DELETE
+-- FROM users
+-- WHERE id IN (SELECT id FROM users WHERE email = 'signoraann@gmail.com');
 INSERT INTO residents (name, city, age)
 VALUES ('Jess', 'Minsk', 16);
 INSERT INTO residents (name, city, age)
@@ -62,3 +62,4 @@ INSERT INTO residents (name, city, age)
 VALUES ('Nastya', 'Brest', 17);
 INSERT INTO residents (name, city, age)
 VALUES ('Sofa', 'Warsaw', 19);
+

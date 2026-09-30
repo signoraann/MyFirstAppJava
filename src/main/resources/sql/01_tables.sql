@@ -26,3 +26,4 @@ CREATE TABLE residents
     age        INTEGER CHECK ( age > 0 ),
     created_at TIMESTAMPTZ DEFAULT now()
 );
+
