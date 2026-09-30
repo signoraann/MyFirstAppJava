@@ -11,13 +11,15 @@ FROM users;
 SELECT SUM(age)
 FROM users;
 
-SELECT residents.city, COUNT(residents.name)
-FROM residents
-GROUP BY residents.city;
+SELECT city, COUNT(city)
+FROM addresses
+         JOIN users ON addresses.user_id = users.id
+GROUP BY city;
 
-SELECT residents.city, COUNT(residents.name)
-FROM residents
-GROUP BY residents.city
+SELECT city, COUNT(city)
+FROM addresses
+         JOIN users ON addresses.user_id = users.id
+GROUP BY city
 HAVING AVG(age) > 21;
 
 SELECT users.username, COUNT(posts.id)

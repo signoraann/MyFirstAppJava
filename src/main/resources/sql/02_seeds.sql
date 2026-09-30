@@ -27,39 +27,27 @@ INSERT INTO users (id, username, email)
 VALUES (3000000000, 'someuser', 'some@mail.com');
 INSERT INTO posts (user_id, post_title)
 VALUES (3000000000, 'Post title');
+INSERT INTO addresses (user_id, city)
+VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo'),
+       ((SELECT id FROM users WHERE email = 'hatters@mail.com'), 'Brest'),
+       ((SELECT id FROM users WHERE email = 'lauran.farrell@hotmail.com'), 'Oslo'),
+       ((SELECT id FROM users WHERE email = 'tomi.blick@hotmail.com'), 'Palermo'),
+       ((SELECT id FROM users WHERE email = 'donald.krajcik@hotmail.com'), 'Romo'),
+       ((SELECT id FROM users WHERE email = 'rosalind.pacocha@yahoo.com'), 'Gdansk'),
+       ((SELECT id FROM users WHERE email = 'nella.rath@yahoo.com'), 'Riga'),
+       ((SELECT id FROM users WHERE email = 'vicky.hackett@yahoo.com'), 'Brest'),
+       ((SELECT id FROM users WHERE email = 'kimbery.wehner@hotmail.com'), 'Warsaw'),
+       ((SELECT id FROM users WHERE email = 'grady.ernser@hotmail.com'), 'New York'),
+       ((SELECT id FROM users WHERE email = 'tasha.witting@gmail.com'), 'Brest'),
+       ((SELECT id FROM users WHERE email = 'bettyann.gleichner@gmail.com'), 'Minsk'),
+       ((SELECT id FROM users WHERE email = 'jess.rice@gmail.com'), 'Krasnodar'),
+       ((SELECT id FROM users WHERE email = 'bruce.schowalter@yahoo.com'), 'Warsaw'),
+       ((SELECT id FROM users WHERE email = 'damion.stokes@yahoo.com'), 'Brest'),
+       ((SELECT id FROM users WHERE email = 'clementina.lueilwitz@yahoo.com'), 'Vena'),
+       ((SELECT id FROM users WHERE email = 'some@mail.com'), 'Riga');
+
 -- DELETE
 -- FROM users
--- WHERE id IN (SELECT id FROM users WHERE email = 'signoraann@gmail.com');
-INSERT INTO residents (name, city, age)
-VALUES ('Jess', 'Minsk', 16);
-INSERT INTO residents (name, city, age)
-VALUES ('Karina', 'Krasnodar', 55);
-INSERT INTO residents (name, city, age)
-VALUES ('Ann', 'Brest', 19);
-INSERT INTO residents (name, city, age)
-VALUES ('Will', 'Minsk', 22);
-INSERT INTO residents (name, city, age)
-VALUES ('Love', 'New York', 33);
-INSERT INTO residents (name, city, age)
-VALUES ('Ken', 'Warsaw', 14);
-INSERT INTO residents (name, city, age)
-VALUES ('Felix', 'Riga', 26);
-INSERT INTO residents (name, city, age)
-VALUES ('Vera', 'Gdansk', 36);
-INSERT INTO residents (name, city, age)
-VALUES ('Damiano', 'Romo', 28);
-INSERT INTO residents (name, city, age)
-VALUES ('Ethan', 'Palermo', 27);
-INSERT INTO residents (name, city, age)
-VALUES ('Vic', 'Oslo', 40);
-INSERT INTO residents (name, city, age)
-VALUES ('Dean', 'Oslo', 34);
-INSERT INTO residents (name, city, age)
-VALUES ('Stas', 'Riga', 24);
-INSERT INTO residents (name, city, age)
-VALUES ('Inga', 'Krasnodar', 5);
-INSERT INTO residents (name, city, age)
-VALUES ('Nastya', 'Brest', 17);
-INSERT INTO residents (name, city, age)
-VALUES ('Sofa', 'Warsaw', 19);
+-- WHERE id IN (SELECT id FROM users WHERE email = 'signoraann@gmail.com'
+
 
