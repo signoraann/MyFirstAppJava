@@ -26,3 +26,4 @@ CREATE TABLE addresses
     created_at TIMESTAMPTZ DEFAULT now(),
     CONSTRAINT unique_user_city UNIQUE (user_id, city)
 );
+

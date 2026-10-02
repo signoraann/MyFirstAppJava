@@ -63,3 +63,4 @@ VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo'),
 
 /*INSERT INTO addresses (user_id, city)
 VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo');*/
+
