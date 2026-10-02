@@ -27,6 +27,21 @@ INSERT INTO users (id, username, email)
 VALUES (3000000000, 'someuser', 'some@mail.com');
 INSERT INTO posts (user_id, post_title)
 VALUES (3000000000, 'Post title');
+INSERT INTO users (username, email, age)
+VALUES ('Laura', 'lauran.farrell@hotmail.com', 45),
+       ('Tom', 'tomi.blick@hotmail.com', 15),
+       ('Donald', 'donald.krajcik@hotmail.com', 23),
+       ('Rose', 'rosalind.pacocha@yahoo.com', 33),
+       ('Nelly', 'nella.rath@yahoo.com', 14),
+       ('Vic', 'vicky.hackett@yahoo.com', 24),
+       ('Kim', 'kimbery.wehner@hotmail.com', 38),
+       ('Grad', 'grady.ernser@hotmail.com', 34),
+       ('Tasha', 'tasha.witting@gmail.com', 26),
+       ('Bet', 'bettyann.gleichner@gmail.com', 16),
+       ('Jess', 'jess.rice@gmail.com', 57),
+       ('Bruce', 'bruce.schowalter@yahoo.com', 47),
+       ('Dam', 'damion.stokes@yahoo.com', 23),
+       ('Clem', 'clementina.lueilwitz@yahoo.com', 9);
 INSERT INTO addresses (user_id, city)
 VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo'),
        ((SELECT id FROM users WHERE email = 'hatters@mail.com'), 'Brest'),
@@ -45,6 +60,9 @@ VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo'),
        ((SELECT id FROM users WHERE email = 'damion.stokes@yahoo.com'), 'Brest'),
        ((SELECT id FROM users WHERE email = 'clementina.lueilwitz@yahoo.com'), 'Vena'),
        ((SELECT id FROM users WHERE email = 'some@mail.com'), 'Riga');
+
+INSERT INTO addresses (user_id, city)
+VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo');
 
 -- DELETE
 -- FROM users
