@@ -61,6 +61,10 @@ VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo'),
        ((SELECT id FROM users WHERE email = 'clementina.lueilwitz@yahoo.com'), 'Vena'),
        ((SELECT id FROM users WHERE email = 'some@mail.com'), 'Riga');
 
+INSERT INTO bankaccount(account_name, balance)
+VALUES ('A', 100.0),
+       ('B', 50.5);
+
 /*INSERT INTO addresses (user_id, city)
 VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo');*/
 
