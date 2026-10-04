@@ -1,14 +1,11 @@
 package com.signoraann.javalearning.lesson30;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class BankDaoJdbc implements BankDao {
-    private static final Logger logger = LoggerFactory.getLogger(BankDaoJdbc.class);
 
     @Override
     public void withdraw(Connection connection, double amount) {
