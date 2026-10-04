@@ -6,4 +6,6 @@ public interface BankDao {
     void deposit(Connection connection, double amount);
 
     void withdraw(Connection connection, double amount);
+
+    double getBalance(Connection connection, String accountName);
 }

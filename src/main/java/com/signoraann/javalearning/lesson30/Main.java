@@ -16,7 +16,7 @@ public class Main {
                 Connection connection = databaseManager.getConnection();
                 Scanner scanner = new Scanner(System.in)) {
             logger.info("Connected to database!");
-            BankDao bankDao = new BankDaoJdbc(connection);
+            BankDao bankDao = new BankDaoJdbc();
             BankService bankService = new BankService(bankDao);
             logger.info("Enter the amount to add to or to substract from the account: ");
             while (!scanner.hasNextDouble()) {
