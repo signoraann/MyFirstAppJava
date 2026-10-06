@@ -13,8 +13,8 @@ public class Main {
 
     public static void main(String[] args) {
         try (DatabaseManager databaseManager = new DatabaseManager();
-                Connection connection = databaseManager.getConnection();
-                Scanner scanner = new Scanner(System.in)) {
+             Connection connection = databaseManager.getConnection();
+             Scanner scanner = new Scanner(System.in)) {
             logger.info("Connected to database!");
             BankDao bankDao = new BankDaoJdbc();
             BankService bankService = new BankService(bankDao);
@@ -30,3 +30,4 @@ public class Main {
         }
     }
 }
+

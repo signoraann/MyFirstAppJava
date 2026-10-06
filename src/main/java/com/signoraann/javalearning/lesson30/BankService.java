@@ -23,7 +23,7 @@ public class BankService {
             logger.info("Transfer successful!");
         } catch (Exception e) {
             try {
-                logger.warn("Transaction failed! Rollback.");
+                logger.warn("Transaction failed! Rollback.", e);
                 connection.rollback();
             } catch (SQLException exception) {
                 logger.error("Failed to rollback", exception);
@@ -38,3 +38,4 @@ public class BankService {
         }
     }
 }
+
