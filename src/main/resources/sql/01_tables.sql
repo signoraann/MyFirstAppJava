@@ -36,4 +36,3 @@ CREATE TABLE bank_account
     created_at   TIMESTAMPTZ DEFAULT now()
 );
 
-
