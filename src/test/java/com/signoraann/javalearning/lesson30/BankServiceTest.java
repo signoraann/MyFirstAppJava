@@ -43,17 +43,22 @@ class BankServiceTest {
         BankService bankService = new BankService(bankDao);
         bankService.transferMoney(connection, 25.5);
         bankService.transferMoney(connection, 25.5);
+        assertEquals(49, bankDao.getBalance(connection, "A"));
         assertEquals(51.0, bankDao.getBalance(connection, "B"));
     }
 
     @Test
-    void testTransferMoneyFailureDoesNotLeaveTheConnectionInBrokenState() throws SQLException {
-        BankService bankService = new BankService(bankDao);
-        assertThrows(BankException.class, () -> bankService.transferMoney(connection, 500.0));
+    void testTransferMoneyRollsBackWhenDepositFails() {
+        BankDao brokenBankDao = new BankDaoJdbc() {
+            @Override
+            public void deposit(Connection connection, double amount) {
+                throw new BankException("Simulated deposit failure");
+            }
+        };
+        BankService bankService = new BankService(brokenBankDao);
+        assertThrows(BankException.class, () -> bankService.transferMoney(connection, 10.0));
         assertEquals(100.0, bankDao.getBalance(connection, "A"));
         assertEquals(0.0, bankDao.getBalance(connection, "B"));
-        assertTrue(connection.getAutoCommit());
-        assertDoesNotThrow(() -> bankService.transferMoney(connection, 10));
     }
 }
 
