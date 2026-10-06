@@ -3,6 +3,7 @@ package com.signoraann.javalearning.lesson30;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -14,11 +15,12 @@ public class BankService {
         this.bankDao = bankDao;
     }
 
-    public void transferMoney(Connection connection, double amount) {
+    public void transferMoney(Connection connection, String from, String to, BigDecimal amount) {
+        checkTransferParameters(from, to, amount);
         try {
             connection.setAutoCommit(false);
-            bankDao.withdraw(connection, amount);
-            bankDao.deposit(connection, amount);
+            bankDao.withdraw(connection, from, amount);
+            bankDao.deposit(connection, to, amount);
             connection.commit();
             logger.info("Transfer successful!");
         } catch (Exception e) {
@@ -35,6 +37,21 @@ public class BankService {
             } catch (SQLException e) {
                 logger.error("Failed to reset autoCommit!");
             }
+        }
+    }
+
+    private void checkTransferParameters(String from, String to, BigDecimal amount) {
+        if (from == null || from.isBlank()) {
+            throw new BankException("Account must be specified!");
+        }
+        if (to == null || to.isBlank()) {
+            throw new BankException("Account must be specified!");
+        }
+        if (from.equals(to)) {
+            throw new BankException("Accounts must be different!");
+        }
+        if (amount == null || amount.signum() <= 0) {
+            throw new BankException("Amount must be > 0!");
         }
     }
 }
