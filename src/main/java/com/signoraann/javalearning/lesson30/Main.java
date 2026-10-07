@@ -4,6 +4,7 @@ import com.signoraann.javalearning.lesson26.DatabaseManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -18,15 +19,21 @@ public class Main {
             logger.info("Connected to database!");
             BankDao bankDao = new BankDaoJdbc();
             BankService bankService = new BankService(bankDao);
-            logger.info("Enter the amount to add to or to substract from the account: ");
+            logger.info("Enter account name to withdraw: ");
+            String from = scanner.next();
+            logger.info("Enter account name to deposit: ");
+            String to = scanner.next();
+            logger.info("Enter the amount to transfer money from {} account to {} account: ", from, to);
             while (!scanner.hasNextDouble()) {
                 logger.warn("Amount should be a number! Try again:");
                 scanner.next();
             }
-            double amount = scanner.nextDouble();
-            bankService.transferMoney(connection, amount);
+            BigDecimal amount = scanner.nextBigDecimal();
+            bankService.transferMoney(connection, from, to, amount);
         } catch (SQLException | IllegalStateException e) {
-            logger.error("Operation failed", e);
+            logger.error("Operation failed.", e);
+        } catch (BankException e) {
+            logger.error("Transfer failed.", e);
         }
     }
 }
