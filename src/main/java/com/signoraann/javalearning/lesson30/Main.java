@@ -24,7 +24,7 @@ public class Main {
             logger.info("Enter account name to deposit: ");
             String to = scanner.next();
             logger.info("Enter the amount to transfer money from {} account to {} account: ", from, to);
-            while (!scanner.hasNextDouble()) {
+            while (!scanner.hasNextBigDecimal()) {
                 logger.warn("Amount should be a number! Try again:");
                 scanner.next();
             }
