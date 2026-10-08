@@ -42,17 +42,16 @@ public class BankService {
 
     private void checkTransferParameters(String from, String to, BigDecimal amount) {
         if (from == null || from.isBlank()) {
-            throw new BankException("Account must be specified!");
+            throw new BankException("Source account must be specified!");
         }
         if (to == null || to.isBlank()) {
-            throw new BankException("Account must be specified!");
+            throw new BankException("Destination account must be specified!");
         }
         if (from.equals(to)) {
-            throw new BankException("Accounts must be different!");
+            throw new BankException("Source and destination accounts must be different!");
         }
         if (amount == null || amount.signum() <= 0) {
             throw new BankException("Amount must be > 0!");
         }
     }
 }
-
