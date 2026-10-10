@@ -10,4 +10,3 @@ public interface BankDao {
 
     BigDecimal getBalance(Connection connection, String accountName);
 }
-

@@ -35,4 +35,3 @@ CREATE TABLE bank_account
     balance      DECIMAL(19, 2) NOT NULL CHECK ( balance >= 0 ),
     created_at   TIMESTAMPTZ DEFAULT now()
 );
-

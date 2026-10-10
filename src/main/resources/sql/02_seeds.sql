@@ -67,4 +67,3 @@ VALUES ('A', 100.00),
 
 /*INSERT INTO addresses (user_id, city)
 VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo');*/
-

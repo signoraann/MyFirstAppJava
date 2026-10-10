@@ -52,4 +52,3 @@ public class BankDaoJdbc implements BankDao {
         throw new BankException("Account not found: " + accountName);
     }
 }
-
