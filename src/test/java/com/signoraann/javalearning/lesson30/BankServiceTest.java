@@ -44,8 +44,8 @@ class BankServiceTest {
         BankService bankService = new BankService(bankDao);
         bankService.transferMoney(connection, "A", "B", new BigDecimal("25.50"));
         bankService.transferMoney(connection, "A", "B", new BigDecimal("25.50"));
-        assertEquals(0, new BigDecimal("49.00").compareTo((bankDao.getBalance(connection, "A"))));
-        assertEquals(0, new BigDecimal("51.00").compareTo((bankDao.getBalance(connection, "B"))));
+        assertEquals(0, new BigDecimal("49.00").compareTo(bankDao.getBalance(connection, "A")));
+        assertEquals(0, new BigDecimal("51.00").compareTo(bankDao.getBalance(connection, "B")));
     }
 
     @Test
@@ -59,8 +59,8 @@ class BankServiceTest {
         BankService bankService = new BankService(brokenBankDao);
         BigDecimal amount = new BigDecimal("10.00");
         assertThrows(BankException.class, () -> bankService.transferMoney(connection, "A", "B", amount));
-        assertEquals(0, new BigDecimal("100.00").compareTo((bankDao.getBalance(connection, "A"))));
-        assertEquals(0, new BigDecimal("0.00").compareTo((bankDao.getBalance(connection, "B"))));
+        assertEquals(0, new BigDecimal("100.00").compareTo(bankDao.getBalance(connection, "A")));
+        assertEquals(0, new BigDecimal("0.00").compareTo(bankDao.getBalance(connection, "B")));
         assertTrue(connection.getAutoCommit());
     }
 
@@ -69,9 +69,9 @@ class BankServiceTest {
         BankService bankService = new BankService(bankDao);
         BigDecimal amount = new BigDecimal("10.00");
         BankException exception = assertThrows(
-                BankException.class, () -> bankService.transferMoney(connection, "False_account", "B", amount));
-        assertEquals("Account not found! Withdraw failed!", exception.getCause().getMessage());
-        assertEquals(0, new BigDecimal("100.00").compareTo((bankDao.getBalance(connection, "A"))));
+                BankException.class, () -> bankService.transferMoney(connection, "A", "False_account", amount));
+        assertEquals(0, new BigDecimal("100.00").compareTo(bankDao.getBalance(connection, "A")));
+        assertInstanceOf(AccountNotFoundException.class, exception.getCause());
         assertTrue(connection.getAutoCommit());
     }
 }

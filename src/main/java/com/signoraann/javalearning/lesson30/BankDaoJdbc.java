@@ -15,7 +15,7 @@ public class BankDaoJdbc implements BankDao {
             preparedStatement.setBigDecimal(1, amount);
             preparedStatement.setString(2, accountName);
             if (preparedStatement.executeUpdate() == 0) {
-                throw new BankException("Account not found! Withdraw failed!");
+                throw new AccountNotFoundException("Account not found! Withdraw failed!");
             }
         } catch (SQLException e) {
             throw new BankException("Unable to charge your account", e);
@@ -29,7 +29,7 @@ public class BankDaoJdbc implements BankDao {
             preparedStatement.setBigDecimal(1, amount);
             preparedStatement.setString(2, accountName);
             if (preparedStatement.executeUpdate() == 0) {
-                throw new BankException("Account not found! Deposit failed.");
+                throw new AccountNotFoundException("Account not found! Deposit failed.");
             }
         } catch (SQLException e) {
             throw new BankException("Unable to add money to your account", e);
@@ -49,6 +49,6 @@ public class BankDaoJdbc implements BankDao {
         } catch (SQLException e) {
             throw new BankException("Balance verification error for account " + accountName, e);
         }
-        throw new BankException("Account not found: " + accountName);
+        throw new AccountNotFoundException("Account not found: " + accountName);
     }
 }
