@@ -65,5 +65,43 @@ INSERT INTO bank_account(account_name, balance)
 VALUES ('A', 100.00),
        ('B', 50.50);
 
+INSERT INTO posts(user_id, post_title)
+VALUES ((SELECT id FROM users WHERE email = 'lauran.farrell@hotmail.com'),
+        'First post'),
+       ((SELECT id FROM users WHERE email = 'tomi.blick@hotmail.com'),
+        'First post'),
+       ((SELECT id FROM users WHERE email = 'donald.krajcik@hotmail.com'),
+        'First post'),
+       ((SELECT id FROM users WHERE email = 'rosalind.pacocha@yahoo.com'),
+        'First post'),
+       ((SELECT id FROM users WHERE email = 'nella.rath@yahoo.com'),
+        'First post'),
+       ((SELECT id FROM users WHERE email = 'vicky.hackett@yahoo.com'),
+        'First post'),
+       ((SELECT id FROM users WHERE email = 'kimbery.wehner@hotmail.com'),
+        'First post'),
+       ((SELECT id FROM users WHERE email = 'grady.ernser@hotmail.com'),
+        'Why I think databases are actually pretty interesting'),
+       ((SELECT id FROM users WHERE email = 'tasha.witting@gmail.com'),
+        'Sport news!'),
+       ((SELECT id FROM users WHERE email = 'bettyann.gleichner@gmail.com'),
+        'My first grwm!'),
+       ((SELECT id FROM users WHERE email = 'jess.rice@gmail.com'),
+        'My solo dance!'),
+       ((SELECT id FROM users WHERE email = 'bruce.schowalter@yahoo.com'),
+        'My first gold medal!'),
+       ((SELECT id FROM users WHERE email = 'damion.stokes@yahoo.com'),
+        'My first book!'),
+       ((SELECT id FROM users WHERE email = 'lauran.farrell@hotmail.com'),
+        'new post'),
+       ((SELECT id FROM users WHERE email = 'tomi.blick@hotmail.com'),
+        '2'),
+       ((SELECT id FROM users WHERE email = 'donald.krajcik@hotmail.com'),
+        '2'),
+       ((SELECT id FROM users WHERE email = 'rosalind.pacocha@yahoo.com'),
+        'Second post'),
+       ((SELECT id FROM users WHERE email = 'nella.rath@yahoo.com'),
+        'Second post');
+
 /*INSERT INTO addresses (user_id, city)
 VALUES ((SELECT id FROM users WHERE email = 'signoraann@gmail.com'), 'Oslo');*/
