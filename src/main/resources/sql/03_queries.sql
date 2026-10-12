@@ -33,3 +33,6 @@ WHERE (SELECT COUNT(*)
        FROM posts
        WHERE posts.user_id = users.id) >
       (SELECT COUNT(*)::numeric FROM posts) / (SELECT COUNT(*) FROM users);
+
+SELECT *
+FROM user_post_summary;
