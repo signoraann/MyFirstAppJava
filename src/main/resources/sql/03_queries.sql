@@ -27,6 +27,7 @@ FROM users
          LEFT JOIN posts ON users.id = posts.user_id
 GROUP BY users.id;
 
+EXPLAIN
 SELECT username
 FROM users
 WHERE (SELECT COUNT(*)
@@ -36,3 +37,10 @@ WHERE (SELECT COUNT(*)
 
 SELECT *
 FROM user_post_summary;
+
+EXPLAIN
+SELECT username
+FROM users
+         LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id
+HAVING COUNT(posts.id) > (SELECT COUNT(*)::numeric FROM posts) / (SELECT COUNT(*) FROM users);
