@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS user_post_summary;
 DROP TABLE IF EXISTS bank_account;
 DROP TABLE IF EXISTS addresses;
 DROP TABLE IF EXISTS posts;
@@ -35,3 +36,10 @@ CREATE TABLE bank_account
     balance      DECIMAL(19, 2) NOT NULL CHECK ( balance >= 0 ),
     created_at   TIMESTAMPTZ DEFAULT now()
 );
+CREATE VIEW user_post_summary AS
+SELECT username
+FROM users
+WHERE (SELECT COUNT(*)
+       FROM posts
+       WHERE posts.user_id = users.id) >
+      (SELECT COUNT(*)::numeric FROM posts) / (SELECT COUNT(*) FROM users);

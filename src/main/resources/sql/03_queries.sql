@@ -26,3 +26,21 @@ SELECT users.username, COUNT(posts.id)
 FROM users
          LEFT JOIN posts ON users.id = posts.user_id
 GROUP BY users.id;
+
+EXPLAIN
+SELECT username
+FROM users
+WHERE (SELECT COUNT(*)
+       FROM posts
+       WHERE posts.user_id = users.id) >
+      (SELECT COUNT(*)::numeric FROM posts) / (SELECT COUNT(*) FROM users);
+
+SELECT *
+FROM user_post_summary;
+
+EXPLAIN
+SELECT username
+FROM users
+         LEFT JOIN posts ON users.id = posts.user_id
+GROUP BY users.id
+HAVING COUNT(posts.id) > (SELECT COUNT(*)::numeric FROM posts) / (SELECT COUNT(*) FROM users);
