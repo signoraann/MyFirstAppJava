@@ -1,5 +1,6 @@
 package com.signoraann.javalearning.lesson32;
 
+//import com.signoraann.javalearning.lesson26.User;
 import com.signoraann.javalearning.lesson26.DatabaseManager;
 import com.signoraann.javalearning.lesson28.UserDao;
 import com.signoraann.javalearning.lesson28.UserDaoJdbc;
@@ -19,6 +20,9 @@ public class Main {
             UserDao userDao = new UserDaoJdbc(connection);
             userDao.findAllUsernames();
             userDao.findUserById(1L);
+            //typo for task3
+            // User user = new User(null, "Ann", "signoraann@gmail.com", 19, null);
+            // userDao.saveUser(user);
         } catch (SQLException | IllegalStateException e) {
             logger.error("Operation failed: ", e);
         }
