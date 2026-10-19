@@ -18,6 +18,7 @@ public class Main {
             logger.info("Connected to database!");
             UserDao userDao = new UserDaoJdbc(connection);
             userDao.findAllUsernames();
+            userDao.findUserById(1L);
         } catch (SQLException | IllegalStateException e) {
             logger.error("Operation failed: ", e);
         }
