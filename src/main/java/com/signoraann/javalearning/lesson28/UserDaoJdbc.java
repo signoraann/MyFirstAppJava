@@ -4,6 +4,8 @@ import com.signoraann.javalearning.lesson26.User;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserDaoJdbc implements UserDao {
@@ -80,5 +82,20 @@ public class UserDaoJdbc implements UserDao {
         } catch (SQLException e) {
             throw new IllegalStateException("Failed to delete user " + username, e);
         }
+    }
+
+    @Override
+    public List<String> findAllUsernames() {
+        String selectUsernamesSql = "SELECT username FROM users ORDER BY username";
+        List<String> usernames = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectUsernamesSql);
+                ResultSet result = preparedStatement.executeQuery()) {
+            while (result.next()) {
+                usernames.add(result.getString("username"));
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to find users", e);
+        }
+        return usernames;
     }
 }
