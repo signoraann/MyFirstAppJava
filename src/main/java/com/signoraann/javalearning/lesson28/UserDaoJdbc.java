@@ -4,7 +4,7 @@ import com.signoraann.javalearning.lesson26.User;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
-import java.util.Optional;
+import java.util.*;
 
 public class UserDaoJdbc implements UserDao {
     private final Connection connection;
@@ -80,5 +80,44 @@ public class UserDaoJdbc implements UserDao {
         } catch (SQLException e) {
             throw new IllegalStateException("Failed to delete user " + username, e);
         }
+    }
+
+    @Override
+    public List<String> findAllUsernames() {
+        String selectUsernamesSql = "SELECT username FROM users ORDER BY username";
+        List<String> usernames = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectUsernamesSql);
+                ResultSet result = preparedStatement.executeQuery()) {
+            while (result.next()) {
+                usernames.add(result.getString("username"));
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to find users", e);
+        }
+        return usernames;
+    }
+
+    @Override
+    public Map<String, List<String>> findAllUsersPosts() {
+        String findAllUsersPostsSql = """
+            SELECT users.username, posts.post_title
+            FROM users
+                     INNER JOIN posts ON users.id = posts.user_id;
+            """;
+        Map<String, List<String>> allUsersPosts = new HashMap<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findAllUsersPostsSql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                String username = resultSet.getString("username");
+                if (!allUsersPosts.containsKey(username)) {
+                    allUsersPosts.put(username, new ArrayList<>());
+                }
+                String postTitles = resultSet.getString("post_title");
+                allUsersPosts.get(username).add(postTitles);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to find users posts", e);
+        }
+        return allUsersPosts;
     }
 }
