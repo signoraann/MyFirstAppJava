@@ -3,6 +3,7 @@ package com.signoraann.javalearning.lesson28;
 import com.signoraann.javalearning.lesson26.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserDao {
@@ -15,4 +16,6 @@ public interface UserDao {
     void deleteByUsername(String username);
 
     List<String> findAllUsernames();
+
+    Map<String, List<String>> findAllUsersPosts();
 }
