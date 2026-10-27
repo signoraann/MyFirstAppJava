@@ -25,6 +25,17 @@ public class Main {
             // typo for task3
             // User user = new User(null, "Ann", "signoraann@gmail.com", 19, null);
             // userDao.saveUser(user);
+            logger.info("""
+                Menu:
+                1. Save user
+                2. Find user by username
+                3. Find user by id
+                4. Delete user by username
+                5. Find all usernames
+                6. Find all users posts
+                7. Exit
+                Enter an option:
+                """);
             String menuChoice = scanner.next();
             String message = switch (menuChoice) {
                 case "1" -> {
