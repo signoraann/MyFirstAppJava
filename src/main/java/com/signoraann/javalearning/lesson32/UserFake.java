@@ -1,10 +1,10 @@
 package com.signoraann.javalearning.lesson32;
 
-public class User {
+public class UserFake {
     long id;
     String username;
 
-    public User(String username, long id) {
+    public UserFake(String username, long id) {
         this.id = id;
         this.username = username;
     }

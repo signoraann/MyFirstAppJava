@@ -93,11 +93,11 @@ public class Main {
             };
             logger.info("{}", message);
 
-            var user1 = new com.signoraann.javalearning.lesson32.User("name", 1L);
-            var user2 = new com.signoraann.javalearning.lesson32.User("name", 1L);
+            var user1 = new UserFake("name", 1L);
+            var user2 = new UserFake("name", 1L);
             logger.info("Comparison with ==: {}", user1 == user2);
             logger.info("Comparison with equals(): {}", user1.equals(user2));
-            List<User> users = new ArrayList<>();
+            List<UserFake> users = new ArrayList<>();
             users.add(user1);
             logger.info("List contains user2: {}", users.contains(user2));
 
