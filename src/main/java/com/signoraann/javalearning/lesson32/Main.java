@@ -1,16 +1,14 @@
 package com.signoraann.javalearning.lesson32;
 
 import com.signoraann.javalearning.lesson26.DatabaseManager;
+import com.signoraann.javalearning.lesson26.User;
 import com.signoraann.javalearning.lesson28.UserDaoJdbc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -32,7 +30,8 @@ public class Main {
                 4. Delete user by username
                 5. Find all usernames
                 6. Find all users posts
-                7. Exit
+                7.Find all users
+                8. Exit
                 Enter an option:
                 """);
             String menuChoice = scanner.next();
@@ -88,7 +87,30 @@ public class Main {
                     logger.info("Users with their posts: {}", foundUsesPosts);
                     yield "Find all users posts";
                 }
-                case "7" -> "Close program";
+                case "7" -> {
+                    Set<User> allUniqueUsers = new HashSet<>();
+                    List<User> allUsers = userDao.findAllUsers();
+                    allUniqueUsers.addAll(allUsers);
+                    logger.info("First adding all users: {}", allUniqueUsers.size());
+                    allUsers = userDao.findAllUsers();
+                    allUniqueUsers.addAll(allUsers);
+                    logger.info("Second adding all users: {}", allUniqueUsers.size());
+                    logger.info("All unique users: {}", allUniqueUsers);
+                    Map<Long, User> usersById = new HashMap<>();
+                    for (User user : allUniqueUsers) {
+                        usersById.put(user.id(), user);
+                    }
+                    logger.info("Enter users id to search: ");
+                    while (!scanner.hasNextLong()) {
+                        logger.warn("id should be a number! Try again:)");
+                        scanner.next();
+                    }
+                    var searchId = scanner.nextLong();
+                    User foundUserById = usersById.get(searchId);
+                    logger.info("User with id {}: {}", searchId, foundUserById);
+                    yield "Find all users and output ";
+                }
+                case "8" -> "Close program";
                 default -> "Unknown menu option";
             };
             logger.info("{}", message);

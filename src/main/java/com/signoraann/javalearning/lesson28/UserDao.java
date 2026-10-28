@@ -18,4 +18,6 @@ public interface UserDao {
     List<String> findAllUsernames();
 
     Map<String, List<String>> findAllUsersPosts();
+
+    List<User> findAllUsers();
 }

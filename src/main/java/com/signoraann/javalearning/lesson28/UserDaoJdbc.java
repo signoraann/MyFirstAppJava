@@ -120,4 +120,20 @@ public class UserDaoJdbc implements UserDao {
         }
         return allUsersPosts;
     }
+
+    @Override
+    public List<User> findAllUsers() {
+        String findAllUsersSql = "SELECT * FROM users";
+        List<User> allUsers = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findAllUsersSql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                allUsers.add(mapRow(resultSet));
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed find all users");
+        }
+        return allUsers;
+    }
 }
