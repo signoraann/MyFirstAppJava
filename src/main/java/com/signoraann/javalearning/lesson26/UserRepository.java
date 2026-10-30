@@ -14,7 +14,11 @@ public class UserRepository {
     }
 
     public List<String> findAllUsernames() throws SQLException {
-        String selectUsernamesSql = "SELECT username FROM users ORDER BY username";
+        String selectUsernamesSql = """
+            SELECT username
+            FROM users
+            ORDER BY username\
+            """;
         List<String> usernames = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectUsernamesSql);
                 ResultSet result = preparedStatement.executeQuery()) {
@@ -26,7 +30,11 @@ public class UserRepository {
     }
 
     public Optional<User> findUserByUsername(String username) throws SQLException {
-        String searchUserByNameSql = "SELECT id, username, email, age, created_at FROM users WHERE username = ?";
+        String searchUserByNameSql = """
+            SELECT id, username, email, age, created_at
+            FROM users
+            WHERE username = ?
+            """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByNameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -44,8 +52,11 @@ public class UserRepository {
     }
 
     public List<User> findUsersByPartOfUsername(String username) throws SQLException {
-        String searchUserByPartOfUsernameSql =
-                "SELECT id, username, email, age, created_at from users WHERE username ILIKE '%' || ? || '%'";
+        String searchUserByPartOfUsernameSql = """
+            SELECT id, username, email, age, created_at
+            FROM users WHERE username
+            ILIKE '%' || ? || '%'
+            """;
         List<User> foundUsers = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(searchUserByPartOfUsernameSql)) {
             preparedStatement.setString(1, username);
@@ -64,7 +75,10 @@ public class UserRepository {
     }
 
     public int[] addUsersInDatabase(List<User> users) throws SQLException {
-        String addUserSql = "INSERT INTO users(username, email, age) VALUES (?, ?, ?)";
+        String addUserSql = """
+            INSERT INTO users(username, email, age)
+            VALUES (?, ?, ?)\
+            """;
         boolean autoCommit = connection.getAutoCommit();
         try {
             connection.setAutoCommit(false);
