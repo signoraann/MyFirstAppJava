@@ -89,9 +89,8 @@ public class Main {
                     yield "Find all users posts";
                 }
                 case "7" -> {
-                    Set<User> allUniqueUsers = new HashSet<>();
                     List<User> allUsers = userDao.findAllUsers();
-                    allUniqueUsers.addAll(allUsers);
+                    Set<User> allUniqueUsers = new HashSet<>(allUsers);
                     logger.info("First adding all users: {}", allUniqueUsers.size());
                     allUsers = userDao.findAllUsers();
                     allUniqueUsers.addAll(allUsers);
