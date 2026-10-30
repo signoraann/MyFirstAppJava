@@ -30,8 +30,9 @@ public class Main {
                 4. Delete user by username
                 5. Find all usernames
                 6. Find all users posts
-                7.Find all users
-                8. Exit
+                7. Find all users
+                8. Sort all users by username
+                9. Exit
                 Enter an option:
                 """);
             String menuChoice = scanner.next();
@@ -66,7 +67,7 @@ public class Main {
                     var searchId = scanner.nextLong();
                     userDao.findUserById(searchId)
                             .ifPresentOrElse(
-                                    user -> logger.info("Found user: {}", user),
+                                    user -> logger.info("Found user by id={}: {}", searchId, user),
                                     () -> logger.warn("User with id = {} not found", searchId));
                     yield "Find user by id";
                 }
@@ -110,11 +111,27 @@ public class Main {
                     logger.info("User with id {}: {}", searchId, foundUserById);
                     yield "Find all users and output ";
                 }
-                case "8" -> "Close program";
+                case "8" -> {
+                    List<User> allUsers = userDao.findAllUsers();
+                    logger.info("Sort users by usernames");
+                    allUsers.stream()
+                            .sorted(Comparator.comparing(User::username).thenComparing(User::id))
+                            .forEach(user -> logger.info("{}", user));
+                    logger.info("Sort users by usernames (reversed)");
+                    allUsers.stream()
+                            .sorted(Comparator.comparing(User::username)
+                                    .thenComparing(User::id)
+                                    .reversed())
+                            .forEach(user -> logger.info("{}", user));
+
+                    yield "Sort all users by username (usernames = )";
+                }
+                case "9" -> "Close program";
                 default -> "Unknown menu option";
             };
             logger.info("{}", message);
 
+            userDao.findUserById(1L);
             var user1 = new UserFake("name", 1L);
             var user2 = new UserFake("name1", 1L);
             logger.info("Comparison with ==: {}", user1 == user2);

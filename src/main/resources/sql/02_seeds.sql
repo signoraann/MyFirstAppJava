@@ -1,11 +1,15 @@
 INSERT INTO users (username, email, age)
 VALUES ('Ann', 'signoraann@gmail.com', 19);
+INSERT INTO users (username, email, age)
+VALUES ('Ann', 'aanna@gmail.com', 32);
 /*INSERT INTO users (username, age)
 VALUES ('Ben', 23); --this row is broken by purpose
 INSERT INTO users (username, email, age)
 VALUES ('Nastya', '', 9); --this row is broken by purpose*/
 INSERT INTO users (username, email, age)
 VALUES ('Olga', 'hatters@mail.com', 69);
+INSERT INTO users (username, email, age)
+VALUES ('Olga', 'spring_of_sakura@mail.com', 33);
 /*INSERT INTO users (username, email, age)
 VALUES ('Polina', 'hatters@mail.com', 29); --that duplicates are blocked by purpose
 INSERT INTO users (username, email, age)
