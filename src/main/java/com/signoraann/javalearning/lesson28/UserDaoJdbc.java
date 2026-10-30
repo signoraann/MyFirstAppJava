@@ -24,7 +24,10 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        String saveUserSql = "INSERT INTO users(username, email, age) VALUES (?,?,?)";
+        String saveUserSql = """
+            INSERT INTO users(username, email, age)
+            VALUES (?,?,?)
+            """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
             preparedStatement.setString(1, user.username());
             preparedStatement.setString(2, user.email());
@@ -41,7 +44,11 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public Optional<User> findUserByUsername(String username) {
-        String findUserByUsernameSql = "SELECT id,username,email,age,created_at FROM users WHERE username = ?";
+        String findUserByUsernameSql = """
+            SELECT id,username,email,age,created_at
+            FROM users
+            WHERE username = ?
+            """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByUsernameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -57,7 +64,11 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public Optional<User> findUserById(Long id) {
-        String findUserByIdSql = "SELECT id,username,email,age, created_at FROM users WHERE id = ?";
+        String findUserByIdSql = """
+            SELECT id,username,email,age, created_at
+            FROM users
+            WHERE id = ?
+            """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByIdSql)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -73,7 +84,11 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void deleteByUsername(String username) {
-        String deleteByUsernameSql = "DELETE FROM users WHERE username = ?";
+        String deleteByUsernameSql = """
+            DELETE
+            FROM users
+            WHERE username = ?
+            """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByUsernameSql)) {
             preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
@@ -84,7 +99,11 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public List<String> findAllUsernames() {
-        String selectUsernamesSql = "SELECT username FROM users ORDER BY username";
+        String selectUsernamesSql = """
+            SELECT username
+            FROM users
+            ORDER BY username
+            """;
         List<String> usernames = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectUsernamesSql);
                 ResultSet result = preparedStatement.executeQuery()) {
@@ -123,7 +142,10 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public List<User> findAllUsers() {
-        String findAllUsersSql = "SELECT * FROM users";
+        String findAllUsersSql = """
+            SELECT *
+            FROM users
+            """;
         List<User> allUsers = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(findAllUsersSql);
                 ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -132,7 +154,7 @@ public class UserDaoJdbc implements UserDao {
             }
 
         } catch (SQLException e) {
-            throw new IllegalStateException("Failed find all users");
+            throw new IllegalStateException("Failed find all users", e);
         }
         return allUsers;
     }

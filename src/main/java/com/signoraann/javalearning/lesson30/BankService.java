@@ -35,7 +35,7 @@ public class BankService {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
-                logger.error("Failed to reset autoCommit!");
+                logger.error("Failed to reset autoCommit!", e);
             }
         }
     }
