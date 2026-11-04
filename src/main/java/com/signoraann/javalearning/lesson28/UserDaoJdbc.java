@@ -43,23 +43,24 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
+    public List<User> findUserByUsername(String username) {
         String findUserByUsernameSql = """
             SELECT id,username,email,age,created_at
             FROM users
             WHERE username = ?
             """;
+        List<User> foundUsersByUsername = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByUsernameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet));
+                    foundUsersByUsername.add(mapRow(resultSet));
                 }
             }
         } catch (SQLException e) {
             throw new IllegalStateException("Error occurred while searching user by username " + username, e);
         }
-        return Optional.empty();
+        return foundUsersByUsername;
     }
 
     @Override
@@ -83,17 +84,17 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void deleteByUsername(String username) {
-        String deleteByUsernameSql = """
+    public boolean deleteByEmail(String email) {
+        String deleteByEmailSql = """
             DELETE
             FROM users
-            WHERE username = ?
+            WHERE email = ?
             """;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByUsernameSql)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByEmailSql)) {
+            preparedStatement.setString(1, email);
+            return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new IllegalStateException("Failed to delete user " + username, e);
+            throw new IllegalStateException("Failed to delete user " + email, e);
         }
     }
 

@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface UserDao {
     void saveUser(User user);
 
-    Optional<User> findUserByUsername(String username);
+    List<User> findUserByUsername(String username);
 
     Optional<User> findUserById(Long id);
 
-    void deleteByUsername(String username);
+    boolean deleteByEmail(String email);
 
     List<String> findAllUsernames();
 
