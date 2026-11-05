@@ -53,7 +53,7 @@ public class UserDaoJdbc implements UserDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByUsernameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     foundUsersByUsername.add(mapRow(resultSet));
                 }
             }

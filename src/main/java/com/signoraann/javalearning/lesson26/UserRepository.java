@@ -17,7 +17,7 @@ public class UserRepository {
         String selectUsernamesSql = """
             SELECT username
             FROM users
-            ORDER BY username\
+            ORDER BY username
             """;
         List<String> usernames = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectUsernamesSql);
@@ -77,7 +77,7 @@ public class UserRepository {
     public int[] addUsersInDatabase(List<User> users) throws SQLException {
         String addUserSql = """
             INSERT INTO users(username, email, age)
-            VALUES (?, ?, ?)\
+            VALUES (?, ?, ?)
             """;
         boolean autoCommit = connection.getAutoCommit();
         try {
