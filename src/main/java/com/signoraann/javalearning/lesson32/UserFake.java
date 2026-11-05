@@ -3,8 +3,8 @@ package com.signoraann.javalearning.lesson32;
 import java.util.Objects;
 
 public class UserFake {
-    long id;
-    String username;
+    private final long id;
+    private final String username;
 
     public UserFake(String username, long id) {
         this.id = id;

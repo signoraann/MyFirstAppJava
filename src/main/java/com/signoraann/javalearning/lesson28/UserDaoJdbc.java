@@ -122,18 +122,15 @@ public class UserDaoJdbc implements UserDao {
         String findAllUsersPostsSql = """
             SELECT users.username, posts.post_title
             FROM users
-                     INNER JOIN posts ON users.id = posts.user_id;
+                     INNER JOIN posts ON users.id = posts.user_id
             """;
         Map<String, List<String>> allUsersPosts = new HashMap<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(findAllUsersPostsSql);
                 ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 String username = resultSet.getString("username");
-                if (!allUsersPosts.containsKey(username)) {
-                    allUsersPosts.put(username, new ArrayList<>());
-                }
-                String postTitles = resultSet.getString("post_title");
-                allUsersPosts.get(username).add(postTitles);
+                String postTitle = resultSet.getString("post_title");
+                allUsersPosts.computeIfAbsent(username, k -> new ArrayList<>()).add(postTitle);
             }
         } catch (SQLException e) {
             throw new IllegalStateException("Failed to find users posts", e);
