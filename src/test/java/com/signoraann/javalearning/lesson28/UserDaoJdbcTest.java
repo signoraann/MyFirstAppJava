@@ -83,7 +83,7 @@ class UserDaoJdbcTest {
         userDao.saveUser(user);
         List<User> found = userDao.findUserByUsername("Dean");
         assertFalse(found.isEmpty());
-        assertEquals("Dean", found.get(0).username());
+        assertEquals("Dean", found.getFirst().username());
     }
 
     @Test
