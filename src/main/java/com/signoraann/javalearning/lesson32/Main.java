@@ -41,47 +41,51 @@ public class Main {
                     """);
 
                 menuChoice = scanner.next();
-                String message = switch (menuChoice) {
-                    case "1" -> {
-                        handleSaveUser(scanner, userDao);
-                        yield "Save user";
-                    }
-                    case "2" -> {
-                        handleFindUserByUsername(scanner, userDao);
-                        yield "Find user by username";
-                    }
-                    case "3" -> {
-                        handleFindUserById(scanner, userDao);
-                        yield "Find user by id";
-                    }
-                    case "4" -> {
-                        handleDeleteUserByEmail(scanner, userDao);
-                        yield "Delete user by email";
-                    }
-                    case "5" -> {
-                        handleFindAllUsernames(userDao);
-                        yield "Find all usernames";
-                    }
-                    case "6" -> {
-                        handleFindAllUsersPosts(userDao);
-                        yield "Find all users posts";
-                    }
-                    case "7" -> {
-                        handleFindAllUsers(scanner, userDao);
-                        yield "Find all users and output";
-                    }
-                    case "8" -> {
-                        sortAllUsersTwoTimes(userDao);
-                        yield "Sort all users by username (if usernames are the same by id)";
-                    }
-                    case "9" -> {
-                        compareTwoUsersThreeWays();
-                        yield "Comparing objects using ==, equals() and contains() (Task 2, lesson 32)";
-                    }
-                    case "10" -> "Close program";
-                    default -> "Unknown menu option";
-                };
-                logger.info("{}", message);
+                try {
+                    String message = switch (menuChoice) {
+                        case "1" -> {
+                            handleSaveUser(scanner, userDao);
+                            yield "Save user";
+                        }
+                        case "2" -> {
+                            handleFindUserByUsername(scanner, userDao);
+                            yield "Find user by username";
+                        }
+                        case "3" -> {
+                            handleFindUserById(scanner, userDao);
+                            yield "Find user by id";
+                        }
+                        case "4" -> {
+                            handleDeleteUserByEmail(scanner, userDao);
+                            yield "Delete user by email";
+                        }
+                        case "5" -> {
+                            handleFindAllUsernames(userDao);
+                            yield "Find all usernames";
+                        }
+                        case "6" -> {
+                            handleFindAllUsersPosts(userDao);
+                            yield "Find all users posts";
+                        }
+                        case "7" -> {
+                            handleFindAllUsers(scanner, userDao);
+                            yield "Find all users and output";
+                        }
+                        case "8" -> {
+                            sortAllUsersTwoTimes(userDao);
+                            yield "Sort all users by username (if usernames are the same by id)";
+                        }
+                        case "9" -> {
+                            compareTwoUsersThreeWays();
+                            yield "Comparing objects using ==, equals() and contains() (Task 9, lesson 32)";
+                        }
+                        case "10" -> "Close program";
+                        default -> "Unknown menu option";
+                    };
+                    logger.info("{}", message);
+                } catch (IllegalStateException e) {
+                    logger.warn("Operation failed!", e);
+                }
             } while (!"10".equals(menuChoice));
         } catch (SQLException | IllegalStateException e) {
             logger.error("Operation failed: ", e);
@@ -116,7 +120,7 @@ public class Main {
     private static void handleFindUserByUsername(Scanner scanner, UserDao userDao) {
         logger.info("Enter username to search user: ");
         var searchUsername = scanner.next();
-        List<User> foundUsers = userDao.findUserByUsername(searchUsername);
+        List<User> foundUsers = userDao.findUsersByUsername(searchUsername);
         if (foundUsers.isEmpty()) {
             logger.warn("Users with username = {} not found", searchUsername);
         } else {

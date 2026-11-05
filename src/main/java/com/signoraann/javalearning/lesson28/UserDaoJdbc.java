@@ -43,7 +43,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public List<User> findUserByUsername(String username) {
+    public List<User> findUsersByUsername(String username) {
         String findUserByUsernameSql = """
             SELECT id,username,email,age,created_at
             FROM users

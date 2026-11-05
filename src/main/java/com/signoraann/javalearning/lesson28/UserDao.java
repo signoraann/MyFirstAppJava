@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface UserDao {
     void saveUser(User user);
 
-    List<User> findUserByUsername(String username);
+    List<User> findUsersByUsername(String username);
 
     Optional<User> findUserById(Long id);
 
