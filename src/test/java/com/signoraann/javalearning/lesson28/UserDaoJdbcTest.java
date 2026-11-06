@@ -81,30 +81,30 @@ class UserDaoJdbcTest {
     void testFindUserByUsernameHappyPath() {
         User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
         userDao.saveUser(user);
-        List<User> found = userDao.findUserByUsername("Dean");
+        List<User> found = userDao.findUsersByUsername("Dean");
         assertFalse(found.isEmpty());
         assertEquals("Dean", found.getFirst().username());
     }
 
     @Test
     void testFindUserByUsernameWhenUserIsNotFoundReturnsEmptyOptionalObject() {
-        assertTrue(userDao.findUserByUsername("Sam").isEmpty());
+        assertTrue(userDao.findUsersByUsername("Sam").isEmpty());
     }
 
     @Test
     void testDeleteByEmailHappyPath() {
         User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
         userDao.saveUser(user);
-        assertFalse(userDao.findUserByUsername("Dean").isEmpty());
+        assertFalse(userDao.findUsersByUsername("Dean").isEmpty());
         userDao.deleteByEmail("diLaurentis@gmail.com");
-        assertTrue(userDao.findUserByUsername("Dean").isEmpty());
+        assertTrue(userDao.findUsersByUsername("Dean").isEmpty());
     }
 
     @Test
     void testFindUserByUsernameReturnAllUsersWithTheSameUsernames() {
         userDao.saveUser(new User(null, "Dean", "diLaurentis@gmail.com", 26));
         userDao.saveUser(new User(null, "Dean", "maverick@gmail.com", 27));
-        List<User> foundUserByUsername = userDao.findUserByUsername("Dean");
+        List<User> foundUserByUsername = userDao.findUsersByUsername("Dean");
         assertEquals(2, foundUserByUsername.size());
         assertEquals("Dean", foundUserByUsername.get(0).username());
         assertEquals("Dean", foundUserByUsername.get(1).username());
