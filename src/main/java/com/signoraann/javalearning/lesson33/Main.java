@@ -15,7 +15,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     static void main() {
-        logger.info("Using pool");
+        /*logger.info("Using pool");
         UserGenerator userGenerator = new UserGenerator();
         try (DatabaseManager databaseManager = new DatabaseManager()) {
             for (int i = 1; i <= 1000; i++) {
@@ -40,6 +40,18 @@ public class Main {
             } catch (SQLException e) {
                 logger.error("Database error", e);
             }
+        }*/
+        openConnections();
+    }
+
+    private static void openConnections() {
+        try (DatabaseManager databaseManager = new DatabaseManager()) {
+            for (int i = 1; i <= 20; i++) {
+                Connection connection = databaseManager.getConnection();
+                logger.info("Connection {} opened", i);
+            }
+        } catch (SQLException e) {
+            logger.error("Connection failed. {}", e.getMessage());
         }
     }
 }
