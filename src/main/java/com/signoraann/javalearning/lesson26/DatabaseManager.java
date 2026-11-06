@@ -18,7 +18,7 @@ public class DatabaseManager implements AutoCloseable {
         config.setJdbcUrl(url);
         config.setUsername(user);
         config.setPassword(password);
-        config.setMaximumPoolSize(5);
+        config.setMaximumPoolSize(2);
         this.dataSource = new HikariDataSource(config);
     }
 
