@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    static void main() {
         try (DatabaseManager databaseManager = new DatabaseManager();
                 Connection connection = databaseManager.getConnection()) {
             UserRepository userRepository = new UserRepository(connection);
@@ -25,12 +25,11 @@ public class Main {
             logger.info("Enter username to search User in database: ");
             Scanner scanner = new Scanner(System.in);
             String userInputName = scanner.nextLine();
-            User foundUser = userRepository.findUserByUsername(userInputName).orElse(null);
-            if (foundUser == null) {
-                logger.warn("User {} not found", userInputName);
-            } else {
-                logger.info("Found user: {}", foundUser);
-            }
+            userRepository
+                    .findUserByUsername(userInputName)
+                    .ifPresentOrElse(
+                            user -> logger.info("Found user: {}", user),
+                            () -> logger.warn("User {} not found", userInputName));
         } catch (SQLException e) {
             logger.error("Database error: {}", e.getMessage());
         }

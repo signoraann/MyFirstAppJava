@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    static void main() {
         try (DatabaseManager databaseManager = new DatabaseManager();
                 Connection connection = databaseManager.getConnection();
                 Scanner scanner = new Scanner(System.in)) {

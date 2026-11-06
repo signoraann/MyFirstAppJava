@@ -4,7 +4,7 @@ import com.signoraann.javalearning.lesson26.User;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
-import java.util.Optional;
+import java.util.*;
 
 public class UserDaoJdbc implements UserDao {
     private final Connection connection;
@@ -24,7 +24,10 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        String saveUserSql = "INSERT INTO users(username, email, age) VALUES (?,?,?)";
+        String saveUserSql = """
+            INSERT INTO users(username, email, age)
+            VALUES (?,?,?)
+            """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
             preparedStatement.setString(1, user.username());
             preparedStatement.setString(2, user.email());
@@ -40,24 +43,33 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
-        String findUserByUsernameSql = "SELECT id,username,email,age,created_at FROM users WHERE username = ?";
+    public List<User> findUsersByUsername(String username) {
+        String findUserByUsernameSql = """
+            SELECT id,username,email,age,created_at
+            FROM users
+            WHERE username = ?
+            """;
+        List<User> foundUsersByUsername = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByUsernameSql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(mapRow(resultSet));
+                while (resultSet.next()) {
+                    foundUsersByUsername.add(mapRow(resultSet));
                 }
             }
         } catch (SQLException e) {
             throw new IllegalStateException("Error occurred while searching user by username " + username, e);
         }
-        return Optional.empty();
+        return foundUsersByUsername;
     }
 
     @Override
     public Optional<User> findUserById(Long id) {
-        String findUserByIdSql = "SELECT id,username,email,age, created_at FROM users WHERE id = ?";
+        String findUserByIdSql = """
+            SELECT id,username,email,age, created_at
+            FROM users
+            WHERE id = ?
+            """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(findUserByIdSql)) {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -72,13 +84,76 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void deleteByUsername(String username) {
-        String deleteByUsernameSql = "DELETE FROM users WHERE username = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByUsernameSql)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.executeUpdate();
+    public boolean deleteByEmail(String email) {
+        String deleteByEmailSql = """
+            DELETE
+            FROM users
+            WHERE email = ?
+            """;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteByEmailSql)) {
+            preparedStatement.setString(1, email);
+            return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new IllegalStateException("Failed to delete user " + username, e);
+            throw new IllegalStateException("Failed to delete user " + email, e);
         }
+    }
+
+    @Override
+    public List<String> findAllUsernames() {
+        String selectUsernamesSql = """
+            SELECT username
+            FROM users
+            ORDER BY username
+            """;
+        List<String> usernames = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectUsernamesSql);
+                ResultSet result = preparedStatement.executeQuery()) {
+            while (result.next()) {
+                usernames.add(result.getString("username"));
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to find users", e);
+        }
+        return usernames;
+    }
+
+    @Override
+    public Map<String, List<String>> findAllUsersPosts() {
+        String findAllUsersPostsSql = """
+            SELECT users.username, posts.post_title
+            FROM users
+                     INNER JOIN posts ON users.id = posts.user_id
+            """;
+        Map<String, List<String>> allUsersPosts = new HashMap<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findAllUsersPostsSql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                String username = resultSet.getString("username");
+                String postTitle = resultSet.getString("post_title");
+                allUsersPosts.computeIfAbsent(username, k -> new ArrayList<>()).add(postTitle);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to find users posts", e);
+        }
+        return allUsersPosts;
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        String findAllUsersSql = """
+            SELECT *
+            FROM users
+            """;
+        List<User> allUsers = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findAllUsersSql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                allUsers.add(mapRow(resultSet));
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed find all users", e);
+        }
+        return allUsers;
     }
 }
