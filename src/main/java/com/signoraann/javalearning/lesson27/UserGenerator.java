@@ -5,6 +5,7 @@ import net.datafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UserGenerator {
     private final Faker faker = new Faker();
@@ -13,7 +14,7 @@ public class UserGenerator {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             String username = faker.credentials().username();
-            String email = faker.internet().emailAddress();
+            String email = UUID.randomUUID() + "@email.com";
             Integer age = faker.number().numberBetween(18, 25);
             users.add(new User(null, username, email, age));
         }
