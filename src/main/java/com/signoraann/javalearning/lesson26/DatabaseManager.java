@@ -30,7 +30,7 @@ public class DatabaseManager implements AutoCloseable {
         return dataSource.getConnection();
     }
 
-    static void checkEnvironmentVariables(String url, String user, String password) {
+    public static void checkEnvironmentVariables(String url, String user, String password) {
         checkVariable("DB_URL", url);
         checkVariable("DB_USER", user);
         checkVariable("DB_PASSWORD", password);
