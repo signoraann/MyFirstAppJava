@@ -33,7 +33,7 @@ public class Main {
             logger.info("Difference in time: {} seconds", differenceTime);
             openConnections();
         } catch (SQLException | IllegalStateException exception) {
-            logger.error("wrong", exception);
+            logger.error("Operation failed: ", exception);
         }
     }
 
