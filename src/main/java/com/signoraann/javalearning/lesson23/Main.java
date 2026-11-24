@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) throws IOException {
+    static void main() throws IOException {
         UserConverter converter = new UserConverter();
         try (Reader reader = new InputStreamReader(
                 Objects.requireNonNull(
