@@ -10,6 +10,12 @@ import java.math.BigDecimal;
 import java.sql.*;
 
 class BankServiceTest {
+    private static final String ACCOUNT_A = "A";
+    private static final String ACCOUNT_B = "B";
+    private static final BigDecimal INITIAL_BALANCE = new BigDecimal("100.00");
+    private static final BigDecimal TRANSFER_AMOUNT = new BigDecimal("25.50");
+    private static final BigDecimal TEST_TRANSFER_AMOUNT = new BigDecimal("10.00");
+
     private Connection connection;
     private BankDaoJdbc bankDao;
 
@@ -42,10 +48,10 @@ class BankServiceTest {
     @Test
     void testTransferMoneyTwiceHappyPath() {
         BankService bankService = new BankService(bankDao);
-        bankService.transferMoney(connection, "A", "B", new BigDecimal("25.50"));
-        bankService.transferMoney(connection, "A", "B", new BigDecimal("25.50"));
-        assertEquals(0, new BigDecimal("49.00").compareTo(bankDao.getBalance(connection, "A")));
-        assertEquals(0, new BigDecimal("51.00").compareTo(bankDao.getBalance(connection, "B")));
+        bankService.transferMoney(connection, ACCOUNT_A, ACCOUNT_B, TRANSFER_AMOUNT);
+        bankService.transferMoney(connection, ACCOUNT_A, ACCOUNT_B, TRANSFER_AMOUNT);
+        assertEquals(0, new BigDecimal("49.00").compareTo(bankDao.getBalance(connection, ACCOUNT_A)));
+        assertEquals(0, new BigDecimal("51.00").compareTo(bankDao.getBalance(connection, ACCOUNT_B)));
     }
 
     @Test
@@ -57,20 +63,21 @@ class BankServiceTest {
             }
         };
         BankService bankService = new BankService(brokenBankDao);
-        BigDecimal amount = new BigDecimal("10.00");
-        assertThrows(BankException.class, () -> bankService.transferMoney(connection, "A", "B", amount));
-        assertEquals(0, new BigDecimal("100.00").compareTo(bankDao.getBalance(connection, "A")));
-        assertEquals(0, new BigDecimal("0.00").compareTo(bankDao.getBalance(connection, "B")));
+        assertThrows(
+                BankException.class,
+                () -> bankService.transferMoney(connection, ACCOUNT_A, ACCOUNT_B, TEST_TRANSFER_AMOUNT));
+        assertEquals(0, INITIAL_BALANCE.compareTo(bankDao.getBalance(connection, ACCOUNT_A)));
+        assertEquals(0, new BigDecimal("0.00").compareTo(bankDao.getBalance(connection, ACCOUNT_B)));
         assertTrue(connection.getAutoCommit());
     }
 
     @Test
     void testTransferMoneyThrowsExceptionWhenAccountDoesNotExist() throws SQLException {
         BankService bankService = new BankService(bankDao);
-        BigDecimal amount = new BigDecimal("10.00");
         BankException exception = assertThrows(
-                BankException.class, () -> bankService.transferMoney(connection, "A", "False_account", amount));
-        assertEquals(0, new BigDecimal("100.00").compareTo(bankDao.getBalance(connection, "A")));
+                BankException.class,
+                () -> bankService.transferMoney(connection, ACCOUNT_A, "False_account", TEST_TRANSFER_AMOUNT));
+        assertEquals(0, INITIAL_BALANCE.compareTo(bankDao.getBalance(connection, ACCOUNT_A)));
         assertInstanceOf(AccountNotFoundException.class, exception.getCause());
         assertTrue(connection.getAutoCommit());
     }

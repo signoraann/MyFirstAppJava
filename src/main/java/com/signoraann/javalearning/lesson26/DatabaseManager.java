@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DatabaseManager implements AutoCloseable {
+    private static final String DB_URL = "DB_URL";
+    private static final String DB_USER = "DB_USER";
+    private static final String DB_PASSWORD = "DB_PASSWORD";
     private final HikariDataSource dataSource;
 
     public DatabaseManager() {
@@ -14,9 +17,9 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     public DatabaseManager(int maximumPoolSize) {
-        String url = System.getenv("DB_URL");
-        String user = System.getenv("DB_USER");
-        String password = System.getenv("DB_PASSWORD");
+        String url = System.getenv(DB_URL);
+        String user = System.getenv(DB_USER);
+        String password = System.getenv(DB_PASSWORD);
         checkEnvironmentVariables(url, user, password);
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
@@ -31,9 +34,9 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     public static void checkEnvironmentVariables(String url, String user, String password) {
-        checkVariable("DB_URL", url);
-        checkVariable("DB_USER", user);
-        checkVariable("DB_PASSWORD", password);
+        checkVariable(DB_URL, url);
+        checkVariable(DB_USER, user);
+        checkVariable(DB_PASSWORD, password);
     }
 
     private static void checkVariable(String name, String value) {

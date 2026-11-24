@@ -12,28 +12,28 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     static void main() {
         UserGenerator userGenerator = new UserGenerator();
         try {
-            logger.info("Using pool");
+            LOGGER.info("Using pool");
             long startTimeWithPool = System.nanoTime();
             insertWithPool(userGenerator);
             long endTimeWithPool = System.nanoTime();
             double timeUsingPool = (endTimeWithPool - startTimeWithPool) / 1000000000.0;
-            logger.info("Time with using pool: {} seconds", timeUsingPool);
-            logger.info("Open fresh connection every time");
+            LOGGER.info("Time with using pool: {} seconds", timeUsingPool);
+            LOGGER.info("Open fresh connection every time");
             long startTimeWithoutPool = System.nanoTime();
             insertWithoutPool(userGenerator);
             long endTimeWithoutPool = System.nanoTime();
             double timeWithoutPool = (endTimeWithoutPool - startTimeWithoutPool) / 1000000000.0;
-            logger.info("Time without using pool: {} seconds", timeWithoutPool);
+            LOGGER.info("Time without using pool: {} seconds", timeWithoutPool);
             double differenceTime = timeWithoutPool - timeUsingPool;
-            logger.info("Difference in time: {} seconds", differenceTime);
+            LOGGER.info("Difference in time: {} seconds", differenceTime);
             openConnections();
         } catch (SQLException | IllegalStateException exception) {
-            logger.error("Operation failed: ", exception);
+            LOGGER.error("Operation failed: ", exception);
         }
     }
 
@@ -63,7 +63,7 @@ public class Main {
         try (DatabaseManager databaseManager = new DatabaseManager(2)) {
             for (int i = 1; i <= 20; i++) {
                 Connection connection = databaseManager.getConnection();
-                logger.info("Connection {} opened", i);
+                LOGGER.info("Connection {} opened", i);
             }
         }
     }

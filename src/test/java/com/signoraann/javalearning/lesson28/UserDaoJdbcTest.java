@@ -19,6 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserDaoJdbcTest {
+    private static final String DEAN_USERNAME = "Dean";
+    private static final String DEAN_EMAIL = "diLaurentis@gmail.com";
+    private static final Integer DEFAULT_AGE = 26;
+    private static final String ALLY_USERNAME = "Ally";
+    private static final String ALLY_EMAIL = "ly@gmail.com";
+    private static final String FIRST_POST_TITLE = "First post";
     private Connection connection;
     private UserDaoJdbc userDao;
 
@@ -60,14 +66,14 @@ class UserDaoJdbcTest {
 
     @Test
     void saveUserInDatabaseTest() {
-        User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
+        User user = new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE);
         OffsetDateTime beforeSave = OffsetDateTime.now();
         userDao.saveUser(user);
         Optional<User> found = userDao.findUserById(1L);
         assertTrue(found.isPresent());
-        assertEquals("Dean", found.get().username());
-        assertEquals("diLaurentis@gmail.com", found.get().email());
-        assertEquals(26, found.get().age());
+        assertEquals(DEAN_USERNAME, found.get().username());
+        assertEquals(DEAN_EMAIL, found.get().email());
+        assertEquals(DEFAULT_AGE, found.get().age());
         assertFalse(found.get().createdAt().isBefore(beforeSave));
     }
 
@@ -79,11 +85,11 @@ class UserDaoJdbcTest {
 
     @Test
     void testFindUserByUsernameHappyPath() {
-        User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
+        User user = new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE);
         userDao.saveUser(user);
-        List<User> found = userDao.findUsersByUsername("Dean");
+        List<User> found = userDao.findUsersByUsername(DEAN_USERNAME);
         assertFalse(found.isEmpty());
-        assertEquals("Dean", found.getFirst().username());
+        assertEquals(DEAN_USERNAME, found.getFirst().username());
     }
 
     @Test
@@ -93,56 +99,56 @@ class UserDaoJdbcTest {
 
     @Test
     void testDeleteByEmailHappyPath() {
-        User user = new User(null, "Dean", "diLaurentis@gmail.com", 26);
+        User user = new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE);
         userDao.saveUser(user);
-        assertFalse(userDao.findUsersByUsername("Dean").isEmpty());
-        userDao.deleteByEmail("diLaurentis@gmail.com");
-        assertTrue(userDao.findUsersByUsername("Dean").isEmpty());
+        assertFalse(userDao.findUsersByUsername(DEAN_USERNAME).isEmpty());
+        userDao.deleteByEmail(DEAN_EMAIL);
+        assertTrue(userDao.findUsersByUsername(DEAN_USERNAME).isEmpty());
     }
 
     @Test
     void testFindUserByUsernameReturnAllUsersWithTheSameUsernames() {
-        userDao.saveUser(new User(null, "Dean", "diLaurentis@gmail.com", 26));
-        userDao.saveUser(new User(null, "Dean", "maverick@gmail.com", 27));
-        List<User> foundUserByUsername = userDao.findUsersByUsername("Dean");
+        userDao.saveUser(new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE));
+        userDao.saveUser(new User(null, DEAN_USERNAME, "maverick@gmail.com", DEFAULT_AGE));
+        List<User> foundUserByUsername = userDao.findUsersByUsername(DEAN_USERNAME);
         assertEquals(2, foundUserByUsername.size());
-        assertEquals("Dean", foundUserByUsername.get(0).username());
-        assertEquals("Dean", foundUserByUsername.get(1).username());
+        assertEquals(DEAN_USERNAME, foundUserByUsername.get(0).username());
+        assertEquals(DEAN_USERNAME, foundUserByUsername.get(1).username());
     }
 
     @Test
     void testFindAllUsernamesHappyPath() {
-        userDao.saveUser(new User(null, "Dean", "diLaurentis@gmail.com", 26));
-        userDao.saveUser(new User(null, "Ally", "ly@gmail.com", 27));
+        userDao.saveUser(new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE));
+        userDao.saveUser(new User(null, ALLY_USERNAME, ALLY_EMAIL, DEFAULT_AGE));
         List<String> foundUserByUsername = userDao.findAllUsernames();
         assertEquals(2, foundUserByUsername.size());
-        assertEquals("Dean", foundUserByUsername.get(1));
-        assertEquals("Ally", foundUserByUsername.get(0));
+        assertEquals(DEAN_USERNAME, foundUserByUsername.get(1));
+        assertEquals(ALLY_USERNAME, foundUserByUsername.get(0));
     }
 
     @Test
     void testFindAllUsersHappyPath() {
-        userDao.saveUser(new User(null, "Dean", "diLaurentis@gmail.com", 26));
-        userDao.saveUser(new User(null, "Ally", "ly@gmail.com", 27));
-        userDao.saveUser(new User(null, "Bill", "billy@gmail.com", 25));
+        userDao.saveUser(new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE));
+        userDao.saveUser(new User(null, ALLY_USERNAME, ALLY_EMAIL, DEFAULT_AGE));
+        userDao.saveUser(new User(null, "Bill", "billy@gmail.com", DEFAULT_AGE));
         List<User> foundUsers = userDao.findAllUsers();
         assertEquals(3, foundUsers.size());
     }
 
     @Test
     void testFindAllUsersPostsHappyPath() throws SQLException {
-        userDao.saveUser(new User(null, "Dean", "diLaurentis@gmail.com", 26));
-        userDao.saveUser(new User(null, "Ally", "ly@gmail.com", 27));
+        userDao.saveUser(new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE));
+        userDao.saveUser(new User(null, ALLY_USERNAME, ALLY_EMAIL, DEFAULT_AGE));
         try (var statement = connection.prepareStatement("""
             INSERT INTO posts(user_id, post_title)
                         VALUES (?, ?)
             """)) {
             statement.setLong(1, 1);
-            statement.setString(2, "First post");
+            statement.setString(2, FIRST_POST_TITLE);
             statement.executeUpdate();
 
             statement.setLong(1, 2);
-            statement.setString(2, "First post");
+            statement.setString(2, FIRST_POST_TITLE);
             statement.executeUpdate();
 
             statement.setLong(1, 2);
@@ -150,8 +156,8 @@ class UserDaoJdbcTest {
             statement.executeUpdate();
             Map<String, List<String>> foundUsersPosts = userDao.findAllUsersPosts();
             assertEquals(2, foundUsersPosts.size());
-            List<String> deanPosts = foundUsersPosts.get("Dean");
-            List<String> allyPosts = foundUsersPosts.get("Ally");
+            List<String> deanPosts = foundUsersPosts.get(DEAN_USERNAME);
+            List<String> allyPosts = foundUsersPosts.get(ALLY_USERNAME);
             assertEquals(1, deanPosts.size());
             assertEquals(2, allyPosts.size());
         }

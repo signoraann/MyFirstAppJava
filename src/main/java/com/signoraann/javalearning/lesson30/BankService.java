@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class BankService {
     private final BankDao bankDao;
-    private static final Logger logger = LoggerFactory.getLogger(BankService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BankService.class);
 
     public BankService(BankDao bankDao) {
         this.bankDao = bankDao;
@@ -22,20 +22,20 @@ public class BankService {
             bankDao.withdraw(connection, from, amount);
             bankDao.deposit(connection, to, amount);
             connection.commit();
-            logger.info("Transfer successful!");
+            LOGGER.info("Transfer successful!");
         } catch (Exception e) {
             try {
-                logger.warn("Transaction failed! Rollback.", e);
+                LOGGER.warn("Transaction failed! Rollback.", e);
                 connection.rollback();
             } catch (SQLException exception) {
-                logger.error("Failed to rollback", exception);
+                LOGGER.error("Failed to rollback", exception);
             }
             throw new BankException("Transaction failed", e);
         } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
-                logger.error("Failed to reset autoCommit!", e);
+                LOGGER.error("Failed to reset autoCommit!", e);
             }
         }
     }
