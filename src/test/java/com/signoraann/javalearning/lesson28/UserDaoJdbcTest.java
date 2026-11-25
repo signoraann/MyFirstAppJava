@@ -1,6 +1,7 @@
 package com.signoraann.javalearning.lesson28;
 
 import com.signoraann.javalearning.lesson26.User;
+import com.signoraann.javalearning.lesson34.UserNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,9 +15,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserDaoJdbcTest {
     private static final String DEAN_USERNAME = "Dean";
@@ -78,9 +76,8 @@ class UserDaoJdbcTest {
     }
 
     @Test
-    void findUserByIdTestReturnsEmptyOptionalObjectWhenUserNotFoundInDatabase() {
-        Optional<User> notFoundUser = userDao.findUserById(999999L);
-        assertTrue(notFoundUser.isEmpty());
+    void testFindUserByIdThrowCustomExceptionWhenUserNotFoundInDatabase() {
+        assertThrows(UserNotFoundException.class, () -> userDao.findUserById(999999L));
     }
 
     @Test
@@ -88,13 +85,12 @@ class UserDaoJdbcTest {
         User user = new User(null, DEAN_USERNAME, DEAN_EMAIL, DEFAULT_AGE);
         userDao.saveUser(user);
         List<User> found = userDao.findUsersByUsername(DEAN_USERNAME);
-        assertFalse(found.isEmpty());
         assertEquals(DEAN_USERNAME, found.getFirst().username());
     }
 
     @Test
-    void testFindUserByUsernameWhenUserIsNotFoundReturnsEmptyOptionalObject() {
-        assertTrue(userDao.findUsersByUsername("Sam").isEmpty());
+    void testFindUserByUsernameThrowCustomExceptionWhenUserIsNotFound() {
+        assertThrows(UserNotFoundException.class, () -> userDao.findUsersByUsername(ALLY_USERNAME));
     }
 
     @Test
@@ -103,7 +99,7 @@ class UserDaoJdbcTest {
         userDao.saveUser(user);
         assertFalse(userDao.findUsersByUsername(DEAN_USERNAME).isEmpty());
         userDao.deleteByEmail(DEAN_EMAIL);
-        assertTrue(userDao.findUsersByUsername(DEAN_USERNAME).isEmpty());
+        assertThrows(UserNotFoundException.class, () -> userDao.findUsersByUsername(DEAN_USERNAME));
     }
 
     @Test

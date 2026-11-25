@@ -4,6 +4,7 @@ import com.signoraann.javalearning.lesson26.DatabaseManager;
 import com.signoraann.javalearning.lesson26.User;
 import com.signoraann.javalearning.lesson28.UserDao;
 import com.signoraann.javalearning.lesson28.UserDaoJdbc;
+import com.signoraann.javalearning.lesson34.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,6 +84,8 @@ public class Main {
                         default -> "Unknown menu option";
                     };
                     LOGGER.info("{}", message);
+                } catch (UserNotFoundException exception) {
+                    LOGGER.error(exception.getMessage());
                 } catch (IllegalStateException e) {
                     LOGGER.warn("Operation failed!", e);
                 }
@@ -121,19 +124,12 @@ public class Main {
         LOGGER.info("Enter username to search user: ");
         var searchUsername = scanner.next();
         List<User> foundUsers = userDao.findUsersByUsername(searchUsername);
-        if (foundUsers.isEmpty()) {
-            LOGGER.warn("Users with username = {} not found", searchUsername);
-        } else {
-            LOGGER.info("Found users by username: {}", foundUsers);
-        }
+        LOGGER.info("Found users by username: {}", foundUsers);
     }
 
     private static void handleFindUserById(Scanner scanner, UserDao userDao) {
         var searchId = readUsersInputId(scanner);
-        userDao.findUserById(searchId)
-                .ifPresentOrElse(
-                        user -> LOGGER.info("Found user by id={}: {}", searchId, user),
-                        () -> LOGGER.warn("User with id = {} not found", searchId));
+        userDao.findUserById(searchId).ifPresent(user -> LOGGER.info("Found user by id={}: {}", searchId, user));
     }
 
     private static void handleDeleteUserByEmail(Scanner scanner, UserDao userDao) {

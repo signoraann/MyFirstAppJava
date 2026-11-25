@@ -3,6 +3,7 @@ package com.signoraann.javalearning.lesson28;
 import com.signoraann.javalearning.lesson26.DatabaseManager;
 import com.signoraann.javalearning.lesson26.User;
 import com.signoraann.javalearning.lesson27.UserGenerator;
+import com.signoraann.javalearning.lesson34.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +31,10 @@ public class Main {
             }
             Long id = scanner.nextLong();
             Optional<User> userOptional = userDao.findUserById(id);
-            userOptional.ifPresentOrElse(
-                    user -> LOGGER.info("User found: {}", user), () -> LOGGER.warn("User not found!"));
+            userOptional.ifPresent(user -> LOGGER.info("User found: {}", user));
 
+        } catch (UserNotFoundException exception) {
+            LOGGER.error(exception.getMessage());
         } catch (SQLException | IllegalStateException e) {
             LOGGER.error("Operation failed: ", e);
         }

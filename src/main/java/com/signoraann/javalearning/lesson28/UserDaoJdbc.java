@@ -1,6 +1,7 @@
 package com.signoraann.javalearning.lesson28;
 
 import com.signoraann.javalearning.lesson26.User;
+import com.signoraann.javalearning.lesson34.UserNotFoundException;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
@@ -60,6 +61,9 @@ public class UserDaoJdbc implements UserDao {
         } catch (SQLException e) {
             throw new IllegalStateException("Error occurred while searching user by username " + username, e);
         }
+        if (foundUsersByUsername.isEmpty()) {
+            throw new UserNotFoundException("User with username " + username + " not found");
+        }
         return foundUsersByUsername;
     }
 
@@ -80,7 +84,7 @@ public class UserDaoJdbc implements UserDao {
         } catch (SQLException e) {
             throw new IllegalStateException("Error occurred while searching user by id " + id, e);
         }
-        return Optional.empty();
+        throw new UserNotFoundException("User with id " + id + " not found!");
     }
 
     @Override
