@@ -10,30 +10,30 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    static void main() {
         try (DatabaseManager databaseManager = new DatabaseManager();
                 Connection connection = databaseManager.getConnection();
                 Scanner scanner = new Scanner(System.in)) {
-            logger.info("Connected to database!");
+            LOGGER.info("Connected to database!");
             BankDao bankDao = new BankDaoJdbc();
             BankService bankService = new BankService(bankDao);
-            logger.info("Enter account name to withdraw: ");
+            LOGGER.info("Enter account name to withdraw: ");
             String from = scanner.next();
-            logger.info("Enter account name to deposit: ");
+            LOGGER.info("Enter account name to deposit: ");
             String to = scanner.next();
-            logger.info("Enter the amount to transfer money from {} account to {} account: ", from, to);
+            LOGGER.info("Enter the amount to transfer money from {} account to {} account: ", from, to);
             while (!scanner.hasNextBigDecimal()) {
-                logger.warn("Amount should be a number! Try again:");
+                LOGGER.warn("Amount should be a number! Try again:");
                 scanner.next();
             }
             BigDecimal amount = scanner.nextBigDecimal();
             bankService.transferMoney(connection, from, to, amount);
         } catch (SQLException | IllegalStateException e) {
-            logger.error("Operation failed.", e);
+            LOGGER.error("Operation failed.", e);
         } catch (BankException e) {
-            logger.error("Transfer failed.", e);
+            LOGGER.error("Transfer failed.", e);
         }
     }
 }

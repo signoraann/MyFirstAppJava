@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) throws IOException {
+    static void main() throws IOException {
         UserConverter converter = new UserConverter();
         try (Reader reader = new InputStreamReader(
                 Objects.requireNonNull(
@@ -21,12 +21,12 @@ public class Main {
                 StandardCharsets.UTF_8)) {
             List<User> users = converter.fromJson(reader);
             if (users != null && !users.isEmpty()) {
-                logger.info("Object from file:");
-                users.forEach(user -> logger.info("User: {}", user));
+                LOGGER.info("Object from file:");
+                users.forEach(user -> LOGGER.info("User: {}", user));
                 String backToJson = converter.toJson(users);
-                logger.info("Back to Json: {}", backToJson);
+                LOGGER.info("Back to Json: {}", backToJson);
             } else {
-                logger.warn("File user.json is empty!");
+                LOGGER.warn("File user.json is empty!");
             }
         }
     }
